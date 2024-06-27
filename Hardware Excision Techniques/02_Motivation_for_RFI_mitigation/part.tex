@@ -1,0 +1,41 @@
+% iaus2esa.tex -- sample pages for Proceedings IAU Symposium document class
+% (based on v1.0 cca2esam.tex)
+% v1.04 released 17 May 2004 by TechBooks
+%% small changes and additions made by KAvdH/IAU 4 June 2004
+% Copyright (2004) International Astronomical Union
+
+\NeedsTeXFormat{LaTeX2e}
+
+\documentclass{iau_FM}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{natbib}
+\usepackage{journals}
+
+\bibliographystyle{aasjournal}
+
+\title[Motivation] {Motivation}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Abstract
+\keywords{Keyword1, keyword2, keyword3, etc.}
+%% add here a maximum of 10 keywords, to be taken form the file <Keywords.txt>
+\end{abstract}
+
+
+\section{Introduction}
+Start text here, example citation: \citep{murthy21}
+
+
+
+
+\bibliography{part}
+
+
+
+\end{document}
