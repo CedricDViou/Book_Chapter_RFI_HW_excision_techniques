@@ -1,0 +1,63 @@
+% iaus2esa.tex -- sample pages for Proceedings IAU Symposium document class
+% (based on v1.0 cca2esam.tex)
+% v1.04 released 17 May 2004 by TechBooks
+%% small changes and additions made by KAvdH/IAU 4 June 2004
+% Copyright (2004) International Astronomical Union
+
+\NeedsTeXFormat{LaTeX2e}
+
+\documentclass{iau_FM}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{natbib}
+\usepackage{journals}
+\usepackage{hyperref} 
+
+\bibliographystyle{aasjournal}
+
+\title[chapter:hardware] {Real-time RFI Excision Techniques and their limitations}
+\author[Buch, Gunaratne, Hellbourg, Viou and Winkel]   %% give here short author list %%
+% author list -- decide on ordering later
+{
+ Kaushal D. Buch$^1$
+ \and Thushara Gunaratne$^2$
+  \and Gregory Hellbourg$^3$
+ \and Cedric Viou$^4$
+ \and Benjamin Winkel$^2$
+}
+
+\affiliation{
+% remove email addresses if you do not want this published
+$^1$ Giant Metrewave Radio Telescope \\ email: {\tt kdbuch@gmrt.ncra.tifr.res.in}\\[\affilskip]
+$^2$ \\[\affilskip]
+$^3$ \\[\affilskip]
+$^4$ \\[\affilskip]
+$^5$ \\[\affilskip]
+}
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Abstract
+\keywords{Keyword1, keyword2, keyword3, etc.}
+%% add here a maximum of 10 keywords, to be taken form the file <Keywords.txt>
+\end{abstract}
+
+
+\input{Hardware Excision Techniques/01_intro}
+
+\input{Hardware Excision Techniques/02_catalog}
+
+\input{Hardware Excision Techniques/03_summary}
+
+\input{Hardware Excision Techniques/04_acknowledgment}
+
+\input{Hardware Excision Techniques/05_conclusion}
+
+\bibliography{part}
+
+
+
+\end{document}

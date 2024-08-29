@@ -1,0 +1,54 @@
+\section{Catalog of real-time mitigation techniques}
+\label{section:hardware:catalog}
+
+\subsection{Existing real-time implementations}
+\label{subsection:hardware:catalog:existing}
+\subsubsection{Preventive : Avoidance ASKAP(?) (Greg, Benjamin)}
+\subsubsection{Analog: Adaptive analog attenuators LWA (Greg)}
+\subsection{Analog: GMRT (Kaushal)}
+\subsubsection{Digital: Excision in time MAD filter GMRT (Kaushal}
+\subsubsection{Digital: Excision in spectral}
+\begin{itemize}
+\item AOFlagger-type Westerbork (Greg)
+\item Higher-order statistics at EOVSA (Greg)
+
+\item Frequency and Time Median filter on Nancay Decameter Array (Cedric)
+
+Will describe here a receiver that operates in the 10-35 MHz band for solar and Jovian daily observations since 2015 (?).
+
+It implements a classical (averaged-based) time-frequency analysis using a Welch averaged periodogram and simultaneously computes the same periodogram with a median filter applied on the frequency axis first and then on the time axis to mitigate narrow-band and wide-band RFI from observations.
+
+\item RFI mitigation implementations on RDH at Nançay (Cedric)
+
+Will describe here :
+\begin{itemize}
+\item a time domain impulse detector based on a power criterion to mitigate L-band radar system radio echoes with excision of time domain data.  Such RFI is used to impair observations of red-shifted HI galaxies observed at the Nançay Decimeter Radiotelescope.
+\item a time-frequency domain based on a MAD-estimated power criterion to mitigate Iridium constellation space-to-earth downlinks.  Such RFI was used to impair observations of 1667-MHz red-shifted OH line from mega-maser that would fall near 1622\ MHz.
+\end{itemize}
+
+
+\item CHIME (Thushara)
+\end{itemize}
+
+\subsection{Prospective real-time implementations}
+\label{subsection:hardware:catalog:prospective}
+
+\subsubsection{Preventive : Dynamic scheduler (Greg)}
+\subsection{Analog: Notch filters for uGMRT (Kaushal)}
+\subsubsection{Analog : Tunable notch filter DSA-2000 (Greg)}
+\subsubsection{Analog : Reconfigurable Intelligent Surface (Greg)}
+\subsubsection{Digital : Excision in time parametric subtraction ellingson (Greg)}
+\subsubsection{Digital(?) : Threshold-based pre-correlation RFI detection technique to be used in SKA.Mid (Thushara)}
+\subsubsection{Digital : excision in UV domain (Greg)}
+\subsubsection{Digital : Spatial filtering (Greg, Kaushal)}
+\begin{itemize}
+\item Classic spatial filtering
+\item Reference-antenna
+\end{itemize}
+\subsubsection{Digital AI/ML} (Greg, Kaushal)
+\begin{itemize}
+\item signal subtraction (Greg)
+\item Pattern recognition (Greg)
+\item External flag generation (RFI monitor?) (Greg)
+\item Use of higher order statistics (Kaushal)
+\end{itemize}
