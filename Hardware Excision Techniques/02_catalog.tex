@@ -5,8 +5,18 @@
 \label{subsection:hardware:catalog:existing}
 \subsubsection{Preventive : Avoidance ASKAP(?) (Greg, Benjamin)}
 \subsubsection{Analog: Adaptive analog attenuators LWA (Greg)}
-\subsection{Analog: GMRT (Kaushal)}
-\subsubsection{Digital: Excision in time MAD filter GMRT (Kaushal}
+
+\subsubsection{Analog: GMRT (Kaushal)}
+\subsubsection{Analog : switchable notch filters Green Bank}
+\subsubsection{Digital : switch ADC fromm 3 to 12 bits at Green Bank}
+
+\subsubsection{Digital: Excision in time}
+
+\begin{itemize}
+\item MAD filter GMRT (Kaushal)
+\item post-PFB (LWA+DSA-2000 - Greg)
+\end{itemize}
+
 \subsubsection{Digital: Excision in spectral}
 \begin{itemize}
 \item AOFlagger-type Westerbork (Greg)
@@ -33,20 +43,27 @@ Will describe here :
 
 
 \item CHIME (Thushara)
+\item MeerKAT : correlator dumps outlier excision at high time res (ingest step, see Sihlangu and Ludwig)
+\item MeerKAT : calibration step VarThreshold  (see Sihlangu and Ludwig)
+\item MeFisTo NDA (Lamy)
 \end{itemize}
 
 \subsection{Prospective real-time implementations}
 \label{subsection:hardware:catalog:prospective}
 
-\subsubsection{Preventive : Dynamic scheduler (Greg)}
-\subsection{Analog: Notch filters for uGMRT (Kaushal)}
+\subsubsection{Preventive: Dynamic scheduler (Greg)}
+\subsubsection{Preventive : satellite avoidance at Green Bank}
+\subsubsection{Analog: Notch filters for uGMRT (Kaushal)}
 \subsubsection{Analog : Tunable notch filter DSA-2000 (Greg)}
 
-The tunable notch filters are designed to mitigate RFI in the analog front-end of the DSA-2000 receivers. The Quad-Stub Resonator Filter uses four high-Q “series LC” stubs, each controlled by voltage-tuned varactors, allowing independent frequency tuning for precise RFI mitigation. The filter achieves deep notch attenuation, adjustable within a range of 550 MHz to 1050 MHz, with peak attenuation up to 62.5 dB. It features a chassis design with RFI-tight seals and SMA connectors to prevent interference coupling. The filter's response is fine-tuned through individual varactor bias adjustments, enabling adaptable and effective RFI suppression across a broad frequency range.
+The tunable notch filters are designed to mitigate RFI in the analog front end of the DSA-2000 receivers. The Quad-Stub Resonator Filter uses four high-Q “series LC” stubs, each controlled by voltage-tuned varactors, allowing independent frequency tuning for precise RFI mitigation. The filter achieves deep notch attenuation, adjustable within a range of 550 MHz to 1050 MHz, with peak attenuation up to 62.5 dB. It features a chassis design with RFI-tight seals and SMA connectors to prevent interference coupling. The filter's response is fine-tuned through individual varactor bias adjustments, enabling adaptable and effective RFI suppression across a broad frequency range.
 
 \subsubsection{Analog : Reconfigurable Intelligent Surface (Greg)}
 
 Reconfigurable Intelligent Surfaces (RIS) can mitigate RFI at the telescope receiver by dynamically shaping the electromagnetic wavefronts to create a destructive interference zone around the receiver \cite{zou2022scisrs,wei2024ris,wei2023multistage}. The RIS array, composed of multiple controllable elements, adjusts the phase and amplitude of reflected signals to precisely counteract incoming RFI. By steering reflected signals from the RIS in such a way that they are out of phase with the incident RFI, the RIS effectively cancels the RFI energy before it reaches the telescope’s receiver. This approach allows for the creation of an electromagnetic quiet zone, enabling the telescope to perform sensitive astronomical observations without interference from external RFI sources, such as aircraft and satellites, without altering the telescope’s primary astronomical signals.
+
+\subsubsection{Digital : SK EDD Effelserg}
+\subsubsection{Digital : cyclic spectroscopy Green Bank}
 
 \subsubsection{Digital : Excision in time parametric subtraction ellingson (Greg)}
 
