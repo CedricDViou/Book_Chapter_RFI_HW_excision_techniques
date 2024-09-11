@@ -27,7 +27,7 @@
 
 The Spectral Kurtosis (SK) technique is a statistical method used for real-time detection of non-Gaussian signals, such as radio frequency interference (RFI), within Gaussian noise in radio astronomy data. The SK estimator distinguishes signals by comparing power and power-squared values of spectral data to detect deviations from Gaussian behavior. The Expanded Owens Valley Solar Array (EOVSA) implements this SK technique in its correlator, using an FPGA-based system to perform real-time SK calculations directly within the Fourier transform engine \cite{}. This design allows the system to flag and exclude contaminated data dynamically, enhancing the quality of observations by effectively identifying and mitigating RFI while preserving genuine astronomical signals.
 
-\item Frequency and Time Median filter on Nancay Decameter Array (Cedric)
+\item Frequency and Time Median filter on Nancay Decameter Array (Cedric) / MeFisTo NDA (Lamy)
 
 Will describe here a receiver that operates in the 10-35 MHz band for solar and Jovian daily observations since 2015 (?).
 
@@ -45,7 +45,6 @@ Will describe here :
 \item CHIME (Thushara)
 \item MeerKAT : correlator dumps outlier excision at high time res (ingest step, see Sihlangu and Ludwig)
 \item MeerKAT : calibration step VarThreshold  (see Sihlangu and Ludwig)
-\item MeFisTo NDA (Lamy)
 \end{itemize}
 
 \subsection{Prospective real-time implementations}
