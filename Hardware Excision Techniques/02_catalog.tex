@@ -53,7 +53,9 @@ Will describe here :
 \end{itemize}
 
 
-\item CHIME (Thushara)
+\item CHIME (Thushara) : 
+
+
 
 \item MeerKAT: correlator dumps outlier excision at high time res (ingest step, see Sihlangu and Ludwig)
 The ingest stage directly after the MeerKAT correlator has a fast and simple “1-D” mean absolute deviation (MAD) filter (“ingest\_rfi”) which identifies the background by running along the frequency axis and thresholds each dump and correlation product independently. It runs on a GPU and is conservatively tuned to identify obvious spikes in amplitude, flagging roughly 4\% of the data in L band. This applies to all imaging modes but not pulsar mode, which has its own RFI mitigation scheme.

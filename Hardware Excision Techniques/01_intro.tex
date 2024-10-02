@@ -56,8 +56,6 @@ It should be pointed out that very broadband receivers can often have strong tra
 
 It is the aim of RAS spectrum management, to ensure that Level 0 is ensured in all frequency bands allocated on a primary basis to the RAS from inband and out-of-band emissions of active transmitters. In bands not allocated to the RAS, all levels of RFI occur in practice, depending on the environment of the telescope. 
 
-\subsection{Limitations of offline mitigation}
-\label{subsection:hardware:introduction:limitations_offline}
 
 \subsection{Motivation for real-time RFI mitigation}
 \label{subsection:hardware:introduction: motivations}
@@ -90,12 +88,25 @@ While real-time detection and excision of RFI is beneficial in radio astronomy i
 An example of a real-time RFI mitigation released and operational for the uGMRT including the possibility of extending it to contemporary and upcoming telescopes is provided in \cite{buch2023real}.
 
 
+\subsection{Advantages of Real-Time RFI Excision}
+\label{subsection:hardware:introduction:advantages}
 
+Advantages of Real-Time RFI Excision
+Improved Data Quality: By removing RFI in real-time, astronomers can obtain cleaner data, which can lead to more accurate and reliable scientific results.
+Reduced Storage Requirements: Removing RFI before data is stored can significantly reduce the amount of storage space required, as only the cleaned data needs to be preserved.
+Real-Time Monitoring: Real-time excission allows astronomers to monitor the data quality as it is being collected, enabling them to identify and address potential issues promptly.
+Efficient Data Analysis: Clean data is easier and more efficient to analyze, as it is less likely to be contaminated by artifacts or noise.
+Reduced Computational Burden: By removing RFI before data is analyzed, astronomers can reduce the computational resources required for subsequent processing.
 
+\subsection{Challenges of Real-Time RFI Excision}
+\label{subsection:hardware:introduction:challenges}
 
-
-
-
+Disadvantages of Real-Time RFI Excision
+Algorithm Complexity: Developing accurate and efficient algorithms for real-time RFI excission can be challenging, especially for complex RFI patterns.
+Computational Overhead: Real-time excission can introduce computational overhead, which may limit the data throughput of the telescope.
+Risk of False Positives and Negatives: There is a risk of mistakenly removing genuine astronomical signals or leaving RFI in the data, which can impact the scientific interpretation.
+Dependency on Algorithm Performance: The effectiveness of real-time RFI excission depends heavily on the performance of the algorithms used, which can be affected by factors like the type and severity of RFI.
+Potential for Data Loss: In some cases, aggressive RFI excission can lead to the loss of genuine astronomical signals, particularly if the RFI is difficult to distinguish from the signal.
 
 
 %\subsubsection{Thushara}
