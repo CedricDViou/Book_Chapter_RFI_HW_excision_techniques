@@ -1,5 +1,5 @@
 \section{Introduction}
-\label{section:hardware:introduction}
+\label{section:hardware: introduction}
 
 \textbf{Benjamin: I think, a more general introduction is needed before one dives into the radiometer equation.}
 
@@ -8,20 +8,31 @@ The radiometer equation is fundamental in radio astronomy for determining the se
 \[ \Delta S = \frac{2 k_B T_{\text{sys}}}{A_{\text{eff}} \sqrt{2 \Delta f \tau}} \]
 where \( \Delta S \) is the minimum detectable flux density in Jansky (1 Jy = $10^{-26}$Wm$^2$Hz$^{-1}$), \( k_B =1.38 \times 10^{-23} \;\text{J} / \text{K}\) is the Boltzmann constant, \( T_{\text{sys}} \) is the system temperature in Kelvin (K), \( A_{\text{eff}} \) is the effective area of the telescope in $m^2$, \( \Delta f \) is the observed bandwidth in Hz, and \( \tau \) is the integration time in seconds (s). This equation underscores the importance of low system temperature, large effective area, broad bandwidth, and long integration time for enhancing the sensitivity and accuracy of astronomical observations.
 
-The sensitivity that can be achieved by modern radio astronomy systems is unrivaled in other radio services and applications. However, this fantastic achievement also comes at a cost. Observations are very susceptible to all kinds of human-made transmissions are other forms of electromagnetic radiation. A cell-phone on the Moon would be among the brightest sources in the sky, at the respective frequencies. 
+The sensitivity that can be achieved by modern radio astronomy systems is unrivaled in other radio services and applications. However, this fantastic achievement also comes at a cost. Observations are very susceptible to all kinds of human-made transmissions are other forms of electromagnetic radiation. A cell phone on the Moon would be among the brightest sources in the sky, at the respective frequencies. 
 
 Astronomers usually refer to these anthropogenic signals as radio frequency interference (RFI), but it has to be pointed out that in legal terms, most of the disturbing features in our data is not considered as RFI by administrations and other spectrum management stakeholders. As the operators of radio transmitters usually have a license, the wanted transmissions, e.g., cell-phone carriers, are perfectly legal. 
 
 In spectrum management, RFI specifically means any kind of unwanted emission, such as near spectral sidelobes, harmonics or intermodulation products, which can leak into the allocated band of another radio service. While the Radiocommunication Sector of the International Telecommunication Union (ITU-R) has acknowledged the requirements of radio astronomy already decades ago, the total amount of spectrum that is allocated to the radio astronomy service is low (\textbf{ADD some numbers}). As a consequence, in addition to measurements in the RAS bands, we are opportunistic -- observing the parts of the spectrum outside of the protected bands wherever and whenever possible at an observatory, as not every active radio service is equally utilised everywhere, 
 
-With more and more digital transmissions, however, the efficiency of spectrum usage has increased significantly in the past years. Therefore, the need increases to deal with humanmade features in our datasets, which can range from flagging affected data samples to making an attempt to fully remove them.
+With more and more digital transmissions, however, the efficiency of spectrum usage has increased significantly in the past years. Therefore, the need increases to deal with humanmade features in our datasets, which can range from flagging affected data samples to attempting to fully remove them.
 
 It should be noted that the best form of interference mitigation is still to avoid them in the first place. Radio astronomers have done their part by (mostly) constructing telescopes in fairly remote locations, with as little radio noise background as possible. Often site searches entailed dedicated spectrum monitoring to find the quietest places. Making use of terrain shielding provides additional protection. Furthermore, astronomers participate in national and international spectrum management fora (\textbf{should we name the organisations and fora here?}) to advocate for the protection from new applications in the bands allocated to the RAS.
 
 Only if all these efforts fail -- and this is not rarely the case -- actual RFI mitigation needs to be considered.
 
+An example of narrowband and broadband RFI as seen in the spectrogram of uGMRT is shown in Figure.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.25]{Hardware Excision Techniques/figures/time_freq(1).jpg}
+    \caption{Spectrogram of uGMRT antenna showing broadband (powerline RFI) and narrowband (communication transmitters) RFI in 250-500 MHz band. Broadband powerline RFI is seen to be repeating every 10ms (submultiple of 50Hz powerline frequency)}
+    \label{fig:ugmrt-rfi}
+\end{figure}
+
+
+
 \subsection{RFI classification}
-\label{subsection:hardware:introduction:classification}
+\label{subsection:hardware:introduction: classification}
 
 \begin{figure}
     \centering
@@ -31,7 +42,7 @@ Only if all these efforts fail -- and this is not rarely the case -- actual RFI 
 \end{figure}
 
 \subsection{Levels of RFI}
-\label{subsection:hardware:introduction:levels}
+\label{subsection:hardware:introduction: levels}
 A typical radio astronomy receiver chain begins with the feed, which collects incoming radio waves from celestial sources. The feed, often part of a larger antenna system such as a parabolic dish, directs these radio frequency (RF) signals to a low-noise amplifier (LNA). The LNA is crucial as it amplifies the weak astronomical signals while adding minimal noise, ensuring the integrity of the data.
 
 Next, the amplified signal passes through a bandpass filter, which isolates the frequency range of interest. After filtering, the signal is often downconverted from its original high frequency to a lower intermediate frequency (IF) using a mixer and a local oscillator. This downconversion facilitates easier and more accurate signal processing.
@@ -43,7 +54,7 @@ RFI may occur at various stages in the receiver signal chain, and we distinguish
 
 \item \emph{Level 0}: at the weakest levels, RFI is undetectable in the telescope signal after a sufficiently long integration time ($\sim$1 hour) and does not impact the science end-product of the observation. The threshold level of such RFI is usually assessed theoretically using an accurate forward modelling effort of the signal processing chain. The level may also be assessed empirically in a controlled experiment involving sensitivity measurements while injecting a controlled RFI signal in the vicinity of the radio telescope. RFI may achieve a weak level when at the telescope site due to long-distance propagation attenuation, side lobe rejection, or signal decorrelation in the context of a phase-tracking radio interferometer.
 
-\item \emph{Level 1}: the RFI reaches the level of an unwanted contribution added to the astronomical information, and impacts the science data. Such RFI requires excision, which consists in detecting the RFI in the signal processing chain, and either subtracting the RFI contribution from the telescope signal, or replacing the impacted data with specific ``flag'' values. The RFI detection may occur in the analog chain, e.g. by monitoring the radio frequency signal power, or in the digital domain by monitoring power excesses in the ADC samples or data sub-integrations for non-time-continuous (i.e. transient) RFI, or in the frequency domain after channelization for band-limited RFI. The RFI excision impacts the sensitivity of the measurement as it effectively either increases $T_{\text{sys}}$ when the excision is applied in the analog domain or reduces $\Delta f$ or $\tau$ when the excision is applied in the digital domain. Additionally, such RFI may prevent the detection of sparse astronomical signals, such as narrow spectral lines in the frequency domain, or transients in the time domain. Detectable RFI may also lead to inaccuracies in telescope data calibration when not accurately identified and accounted for.
+\item \emph{Level 1}: the RFI reaches the level of an unwanted contribution added to the astronomical information, and impacts the science data. Such RFI requires excision, which consists of detecting the RFI in the signal processing chain, and either subtracting the RFI contribution from the telescope signal or replacing the impacted data with specific ``flag'' values. The RFI detection may occur in the analog chain, e.g. by monitoring the radio frequency signal power, or in the digital domain by monitoring power excesses in the ADC samples or data sub-integrations for non-time-continuous (i.e. transient) RFI, or in the frequency domain after channelization for band-limited RFI. The RFI excision impacts the sensitivity of the measurement as it effectively either increases $T_{\text{sys}}$ when the excision is applied in the analog domain or reduces $\Delta f$ or $\tau$ when the excision is applied in the digital domain. Additionally, such RFI may prevent the detection of sparse astronomical signals, such as narrow spectral lines in the frequency domain, or transients in the time domain. Detectable RFI may also lead to inaccuracies in telescope data calibration when not accurately identified and accounted for.
 
 \item \emph{Level 2}: stronger RFI will drive elements in the analog signal chain (the LNA in particular) into a non-linear regime, generating harmonics and intermodulation products of one or multiple RFI signals. Similar to \emph{Level 1}, the typical mitigation of RFI at this level requires the detection and excision of the impacted telescope data regions in the time and frequency (TF) domains. The amount of excision is however increased compared to the effective RFI TF footprint, which results in a sensitivity drop in the astronomical observation. A standard mitigation solution of such RFI involves the insertion of power attenuators before the LNA, which in turn also impacts the sensitivity of the telescope even more by increasing the system noise temperature. The RFI threshold of \emph{Level 2} is assessed by accurately measuring the LNA response beyond its linear regime, notably by conducting second- and third-order intercept point (IP2 and IP3) measurements.
 
@@ -81,32 +92,32 @@ Other benefits from real-time RFI mitigation are as follows:
 \end{figure}
 
 
-Additionally, real-time RFI mitigation contributes to the protection and longevity of sensitive receiver components by promptly handling high-power interfering signals and reducing the risk of thermal damage and long-term degradation of electronic components.
-While real-time detection and excision of RFI is beneficial in radio astronomy it comes with challenges. The main challenge is the cost and power consumption. Even though RFI has become a significant threat to radio astronomy for several decades, few signal chains of radio telescopes have been designed considering the real-time excision of RFI. Hence, the real-time RFI excision methods deployed in existing radio telescopes are implemented using the remaining resources after implementing the key signal processing modules and operated with limited power. Regarding quality, one of the main checks that needs to be made is the flagging duration and accuracy of flagging.  It should be ensured that the excision is optimal i.e. there is no over-excising of the data which can result in the loss of precious observational data or under-excising which leads to RFI remnants in the data.
+%Additionally, real-time RFI mitigation contributes to the protection and longevity of sensitive receiver components by promptly handling high-power interfering signals and reducing the risk of thermal damage and long-term degradation of electronic components.
+%While real-time detection and excision of RFI is beneficial in radio astronomy it comes with challenges. The main challenge is the cost and power consumption. Even though RFI has become a significant threat to radio astronomy for several decades, few signal chains of radio telescopes have been designed considering the real-time excision of RFI. Hence, the real-time RFI excision methods deployed in existing radio telescopes are implemented using the remaining resources after implementing the key signal processing modules and operated with limited power. Regarding quality, one of the main checks that needs to be made is the flagging duration and accuracy of flagging.  It should be ensured that the excision is optimal i.e. there is no over-excising of the data which can result in the loss of precious observational data or under-excising which leads to RFI remnants in the data.
 
 
-An example of a real-time RFI mitigation released and operational for the uGMRT including the possibility of extending it to contemporary and upcoming telescopes is provided in \cite{buch2023real}.
+%An example of a real-time RFI mitigation released and operational for the uGMRT including the possibility of extending it to contemporary and upcoming telescopes is provided in \cite{buch2023real}.
 
 
-\subsection{Advantages of Real-Time RFI Excision}
-\label{subsection:hardware:introduction:advantages}
+%\subsection{Advantages of Real-Time RFI Excision}
+%\label{subsection:hardware:introduction:advantages}
 
-Advantages of Real-Time RFI Excision
-Improved Data Quality: By removing RFI in real-time, astronomers can obtain cleaner data, which can lead to more accurate and reliable scientific results.
-Reduced Storage Requirements: Removing RFI before data is stored can significantly reduce the amount of storage space required, as only the cleaned data needs to be preserved.
-Real-Time Monitoring: Real-time excission allows astronomers to monitor the data quality as it is being collected, enabling them to identify and address potential issues promptly.
-Efficient Data Analysis: Clean data is easier and more efficient to analyze, as it is less likely to be contaminated by artifacts or noise.
-Reduced Computational Burden: By removing RFI before data is analyzed, astronomers can reduce the computational resources required for subsequent processing.
+%Advantages of Real-Time RFI Excision
+%Improved Data Quality: By removing RFI in real-time, astronomers can obtain cleaner data, which can lead to more accurate and reliable scientific results.
+%Reduced Storage Requirements: Removing RFI before data is stored can significantly reduce the amount of storage space required, as only the cleaned data needs to be preserved.
+%Real-Time Monitoring: Real-time excission allows astronomers to monitor the data quality as it is being collected, enabling them to identify and address potential issues promptly.
+%Efficient Data Analysis: Clean data is easier and more efficient to analyze, as it is less likely to be contaminated by artifacts or noise.
+%Reduced Computational Burden: By removing RFI before data is analyzed, astronomers can reduce the computational resources required for subsequent processing.
 
-\subsection{Challenges of Real-Time RFI Excision}
-\label{subsection:hardware:introduction:challenges}
+%\%subsection{Challenges of Real-Time RFI Excision}
+%\label{subsection:hardware:introduction:challenges}
 
-Disadvantages of Real-Time RFI Excision
-Algorithm Complexity: Developing accurate and efficient algorithms for real-time RFI excission can be challenging, especially for complex RFI patterns.
-Computational Overhead: Real-time excission can introduce computational overhead, which may limit the data throughput of the telescope.
-Risk of False Positives and Negatives: There is a risk of mistakenly removing genuine astronomical signals or leaving RFI in the data, which can impact the scientific interpretation.
-Dependency on Algorithm Performance: The effectiveness of real-time RFI excission depends heavily on the performance of the algorithms used, which can be affected by factors like the type and severity of RFI.
-Potential for Data Loss: In some cases, aggressive RFI excission can lead to the loss of genuine astronomical signals, particularly if the RFI is difficult to distinguish from the signal.
+%Disadvantages of Real-Time RFI Excision
+%Algorithm Complexity: Developing accurate and efficient algorithms for real-time RFI excission can be challenging, especially for complex RFI patterns.
+%Computational Overhead: Real-time excission can introduce computational overhead, which may limit the data throughput of the telescope.
+%Risk of False Positives and Negatives: There is a risk of mistakenly removing genuine astronomical signals or leaving RFI in the data, which can impact the scientific interpretation.
+%Dependency on Algorithm Performance: The effectiveness of real-time RFI excission depends heavily on the performance of the algorithms used, which can be affected by factors like the type and severity of RFI.
+%Potential for Data Loss: In some cases, aggressive RFI excission can lead to the loss of genuine astronomical signals, particularly if the RFI is difficult to distinguish from the signal.
 
 
 %\subsubsection{Thushara}

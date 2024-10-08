@@ -4,6 +4,7 @@
 \subsection{Existing real-time implementations}
 \label{subsection:hardware:catalog:existing}
 \subsubsection{Preventive : Avoidance ASKAP(?) (Greg, Benjamin)}
+
 \subsubsection{Analog: Adaptive analog attenuators LWA (Greg)}
 
 \subsubsection{Superconducting filters (YEBES)}
@@ -31,7 +32,7 @@ New filters to be published soon (papers in progress).
 \begin{itemize}
 \item AOFlagger-type Westerbork (Greg)
 
- RFIm \cite{sclocco2019real} is an open-source, high-performance library designed to mitigate RFI in real-time. RFIm is optimized to run on many-core accelerators such as GPUs and provides methods that are robust yet computationally efficient. The library features two main algorithms: Time-Domain Sigma Cut (TDSC) and Frequency-Domain Sigma Cut (FDSC). These two algorithms detect and replace RFI-contaminated data with statistical averages to reduce false positives without significant impact on processing time. This approach allows systems like the Apertif Radio Transient System (ARTS) to maintain high data throughput while effectively identifying real astronomical signals amidst increasing anthropogenic and satellite-generated interference.
+ RFIm \cite{sclocco2019real} is an open-source, high-performance library designed to mitigate RFI in real time. RFIm is optimized to run on many-core accelerators such as GPUs and provides methods that are robust yet computationally efficient. The library features two main algorithms: Time-Domain Sigma Cut (TDSC) and Frequency-Domain Sigma Cut (FDSC). These two algorithms detect and replace RFI-contaminated data with statistical averages to reduce false positives without significant impact on processing time. This approach allows systems like the Apertif Radio Transient System (ARTS) to maintain high data throughput while effectively identifying real astronomical signals amidst increasing anthropogenic and satellite-generated interference.
  
 \item Higher-order statistics at EOVSA (Greg)
 
@@ -53,13 +54,13 @@ Will describe here :
 \end{itemize}
 
 
-\item CHIME (Thushara) : 
+\item CHIME (Thushara): The Canadian Hydrogen Intensity Mapping Experiment (CHIME) is a radio telescope primarily designed to study the distribution of neutral hydrogen gas in the Universe. Serendipitously, it turned out to be an excellent instrument for detecting fast radio bursts (FRBs), the mysterious millisecond-long radio flashes of unknown origin. When processed with the CHIME FRB pipeline, strong impulsive RFI may lead to false positives and therefore needs to be mitigated. Several real-time iterative processes have been applied iteratively to weed out the statistical outliers from the channelized intensity data that are effectively high-pass filtered.
 
 
 
 \item MeerKAT: correlator dumps outlier excision at high time res (ingest step, see Sihlangu and Ludwig)
-The ingest stage directly after the MeerKAT correlator has a fast and simple “1-D” mean absolute deviation (MAD) filter (“ingest\_rfi”) which identifies the background by running along the frequency axis and thresholds each dump and correlation product independently. It runs on a GPU and is conservatively tuned to identify obvious spikes in amplitude, flagging roughly 4\% of the data in L band. This applies to all imaging modes but not pulsar mode, which has its own RFI mitigation scheme.
-Initially the ingest stage also excised data that was flagged by the “ingest\_rfi” filter before it averaged 0.5-second raw correlator dumps to the final 8-second dumps. Scientists did not like this idea (and RFI researchers even more so!), so it was canned.
+The ingest stage directly after the MeerKAT correlator has a fast and simple “1-D” mean absolute deviation (MAD) filter (“ingest\_rfi”) which identifies the background by running along the frequency axis and thresholds each dump and correlation product independently. It runs on a GPU and is conservatively tuned to identify obvious spikes in amplitude, flagging roughly 4\% of the data in the L band. This applies to all imaging modes but not pulsar mode, which has its own RFI mitigation scheme.
+Initially, the ingest stage also excised data that was flagged by the “ingest\_rfi” filter before it averaged 0.5-second raw correlator dumps to the final 8-second dumps. Scientists did not like this idea (and RFI researchers even more so!), so it was canned.
 
 The majority keep the more conservative “ingest\_rfi” flags but not the more aggressive “cal\_rfi” flags. Observers that take our pipeline images will have all flags applied.
 
@@ -67,7 +68,7 @@ The main codebase for our flagger is https://github.com/ska-sa/katsdpsigproc. Th
 
 
 \item MeerKAT: calibration step VarThreshold  (see Sihlangu and Ludwig)
-The calibration pipeline which follows after ingest has a more advanced “2-D” flagger (“cal\_rfi”). It is a tweaked AOFlagger written from scratch in Numba. It identifies the background by running along both the time and frequency axes. It performs two passes, first finding a smooth background on previously unflagged parts and then sum-thresholding. It only flags HV and VH (cross-hand) data and extends the results to HH and VV. It flags the calibrator before solving for gains, and it flags the target after applying gain corrections to it, which allows more stringent flagger parameters. It typically flags about 20% of the data in L band. This applies to all imaging modes but not pulsar mode, which has its own RFI mitigation scheme.
+The calibration pipeline which follows after ingest has a more advanced “2-D” flagger (“cal\_rfi”). It is a tweaked AOFlagger written from scratch in Numba. It identifies the background by running along both the time and frequency axes. It performs two passes, first finding a smooth background on previously unflagged parts and then sum-thresholding. It only flags HV and VH (cross-hand) data and extends the results to HH and VV. It flags the calibrator before solving for gains, and it flags the target after applying gain corrections to it, which allows more stringent flagger parameters. It typically flags about 20% of the data in the L band. This applies to all imaging modes but not pulsar mode, which has its own RFI mitigation scheme.
 
 
 \end{itemize}
@@ -77,6 +78,8 @@ The calibration pipeline which follows after ingest has a more advanced “2-D�
 
 \subsubsection{Preventive: Dynamic scheduler (Greg)}
 \subsubsection{Preventive: satellite avoidance at Green Bank}
+Satellite boresight avoidance is a technique to prevent satellites from directly illuminating a telescope's primary observation direction. In experiments conducted by the Green Bank Telescope (GBT) with Starlink satellites, this technique was tested \cite{nhan2024spectrumcoexistencedemonstrationeffectiveness} by adjusting the satellite constellation's configuration based on real-time telescope pointing data and predicted satellite trajectories. This approach minimizes interference by dynamically coordinating telescope operations with satellite activities, such as emission control and beam steering. The process is facilitated by the Operational Data Sharing (ODS) system, an autonomous platform developed by the National Radio Astronomy Observatory (NRAO). ODS provides satellite operators with real-time updates on telescope positions and observing frequencies, allowing them to adjust satellite operations accordingly. With frequent updates, potentially every minute, ODS ensures effective coordination, especially during close satellite passes near the telescope’s boresight
+
 \subsubsection{Analog: Notch filters for uGMRT (Kaushal)}
 \subsubsection{Analog : Tunable notch filter DSA-2000 (Greg)}
 
@@ -96,7 +99,7 @@ The time-domain coherent cancellation (CTC) technique is a method used to mitiga
 \subsubsection{Digital: Threshold-based pre-correlation RFI detection technique to be used in SKA.Mid (Thushara)}
 \label{subsection:hardware:catalog:ska-mid}
 
-The Correlator Beamformer for the Mid-frequency telescope for the Square Kilometre Array (SKA-Mid. CBF) uses a 'power threshold-based' RFI detection scheme. The main objective is to preserve the linearity of the signal chain while achieving the desired dynamic range to maintain the sensitivity. The architecture of the proposed RFI detector/flagger module is shown in Figure~\ref{fig:rfi_df_ska_mid_cbf}. As shown there, two-time scales are involved:
+The Correlator Beamformer for the Mid-frequency telescope for the Square Kilometre Array (SKA-Mid. CBF) uses a 'power threshold-based' RFI detection scheme. The main objective is to preserve the linearity of the signal chain while achieving the desired dynamic range to maintain the sensitivity. The architecture of the proposed RFI detector/flagger module is shown in Figure~\ref{fig:rfi_df_ska_mid_cbf}. As shown there, two time scales are involved:
 \begin{enumerate}
     \item Long-term ($>$1 sec, considering on/off state of the noise diode) for establishing an average power level, and
     \item Short-term to detect and flag bursting RFI to prevent downstream spectral splatter.
@@ -124,23 +127,26 @@ The core idea is to leverage the spatial diversity of RFI and astronomical signa
 
 \item Reference-antenna
 
-A reference antenna can be used to mitigate RFI in real-time by providing an accurate estimation of the RFI spatial signature, which can then be used for spatial filtering in radio astronomy. The reference antenna is positioned to specifically capture the RFI without significantly receiving the astronomical signals. This RFI reference signal is correlated with the signals received by the main telescope array, allowing the RFI's spatial signature to be extracted and identified. This information is then used to project out the RFI from the main array's data using spatial filtering techniques, such as subspace projection.
+A reference antenna can be used to mitigate RFI in real time by providing an accurate estimation of the RFI spatial signature, which can then be used for spatial filtering in radio astronomy. The reference antenna is positioned to specifically capture the RFI without significantly receiving the astronomical signals. This RFI reference signal is correlated with the signals received by the main telescope array, allowing the RFI's spatial signature to be extracted and identified. This information is then used to project out the RFI from the main array's data using spatial filtering techniques, such as subspace projection.
 
-By continuously updating the RFI spatial signature using subspace tracking algorithms, like the Power Method or Rayleigh Quotient Iteration, the system can adapt to changes in the RFI environment in real-time, effectively cancelling out the interference without impacting the astronomical signals. This approach is particularly effective for managing multiple RFI sources and dynamically changing interference patterns, enabling high-fidelity observations even in heavily contaminated radio bands\cite{hellbourg2014reference,sardarabadi2015spatial}.
+By continuously updating the RFI spatial signature using subspace tracking algorithms, like the Power Method or Rayleigh Quotient Iteration, the system can adapt to changes in the RFI environment in real time, effectively cancelling out the interference without impacting the astronomical signals. This approach is particularly effective for managing multiple RFI sources and dynamically changing interference patterns, enabling high-fidelity observations even in heavily contaminated radio bands\cite{hellbourg2014reference,sardarabadi2015spatial}.
 
 \end{itemize}
 \subsubsection{Digital AI/ML} (Greg, Kaushal)
 \begin{itemize}
 \item Collaborative Signal Subtraction (Greg)
 
-The collaborative approach to RFI mitigation works by establishing a bidirectional communication between radio telescopes and interfering sources, such as cellular networks, to actively share RFI information and cancel interference in real time. The interfering sources decompose their signals into a compact representation using techniques like the Karhunen–Loève Transform (KLT), which captures the signal's statistical properties independent of time and frequency. This RFI information, including eigenfunctions representing the interference, is periodically shared with the telescope through a low-overhead communication channel.
+The collaborative approach to RFI mitigation works by establishing a bidirectional communication between radio telescopes and interfering sources, such as cellular networks, to actively share RFI information and cancel interference in real-time. The interfering sources decompose their signals into a compact representation using techniques like the Karhunen–Loève Transform (KLT), which captures the signal's statistical properties independent of time and frequency. This RFI information, including eigenfunctions representing the interference, is periodically shared with the telescope through a low-overhead communication channel.
 
 At the telescope, the received composite signal, which includes both astronomical signals and RFI, is similarly decomposed. The shared RFI characteristics are then used to cancel the interference from the telescope’s data through orthogonal projections in the eigenspace, thereby revealing clean astronomical signals. This approach significantly reduces communication and computational overhead by prioritizing the sharing of high-impact RFI data and selectively updating the interference model based on its influence on the telescope, thus maintaining high accuracy in signal recovery while managing multiple RFI sources effectively \cite{chakraborty2023collaboration,chakraborty2024low}.
 
 \item Pattern recognition (Greg)
+
+Automated pattern recognition to identify RFI in real-time radio astronomy data \cite{Winkel_2007} uses edge detection and window fitting to isolate high-intensity regions in the time-frequency domain, likely corresponding to RFI. Statistical analysis then helps differentiate RFI from genuine astronomical signals by comparing intensity patterns and variations. Iterative baseline fitting further refines the detection to ensure that RFI is accurately identified without impacting the integrity of the astronomical data. This method can be implemented in real-time systems, enabling dynamic flagging and mitigation of RFI, which is crucial for maintaining data quality in environments prone to interference, such as those near populated areas or satellite systems.
+
 \item External flag generation (RFI monitor?) (Greg)
 
-An RFI detector can provide real-time flags for radio telescopes by using machine learning techniques to automatically identify and classify interference in the radio frequency spectrum. The system described here \cite{9111666} employs a deep neural network (DNN) that processes time-frequency data, detecting and drawing bounding boxes around RFI events. This approach allows the detector to continuously monitor the RF environment and flag novel or anomalous RFI events in real time. The detected RFI events are flagged based on their spatial, spectral, and temporal characteristics, allowing the telescope to dynamically adjust its data processing pipeline to exclude or compensate for contaminated signals.
+An RFI detector can provide real-time flags for radio telescopes by using machine learning techniques to automatically identify and classify interference in the radio frequency spectrum. The system described here \cite{9111666} employs a deep neural network (DNN) that processes time-frequency data, detecting and drawing bounding boxes around RFI events. This approach allows the detector to continuously monitor the RF environment and flag novel or anomalous RFI events in real-time. The detected RFI events are flagged based on their spatial, spectral, and temporal characteristics, allowing the telescope to dynamically adjust its data processing pipeline to exclude or compensate for contaminated signals.
 
 By integrating with the telescope’s data stream, the system can provide immediate notifications about RFI, enabling telescopes to respond promptly to interference without manual intervention. This real-time detection capability is particularly useful for maintaining the quality of astronomical observations by preventing the degradation of data due to unwanted interference.
 
