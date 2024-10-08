@@ -74,18 +74,38 @@ Time and frequency analysis of this band must be performed with temporal and spe
 
 Since 2013, a receiver \cite{lecacheux2013, 2017pre8.conf..455L} based on 80-MSps ADCs and a Stratix IV FPGA has implemented a real-time streaming Blackman-Harris-windowed 64k-FFT, followed by classical (averaged) time-frequency analysis using a Welch-averaged periodogram. Simultaneously, the same periodogram is computed with a median filter (kernel size=64) applied first on the frequency axis, then on the time axis (kernel size=128), to mitigate narrowband and wideband RFI in observations. The frequency resolution for RFI mitigation is as low as 1.2 kHz, but it is raised to 78 kHz for scientific purposes. The time resolution for RFI mitigation is 0.8 ms but is increased to 104 ms to provide a sustainable data rate for 24/7 monitoring of the Sun and Jupiter.
 
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/MeFisTo.png}
+    \caption{}
+    \label{fig:rfi_MeFisTo}
+\end{figure}
+
 
 \item RFI mitigation implementations on RDH at Nançay (Cedric)
 
 In the early 20th century, a configurable digital receiver was deployed at the Nançay Observatory. The receiver's ADC+FPGA+DSP system was shared by the 100-meter Decimeter Wavelength Telescope (NRT) and the Decameter Wavelength Analog Phased-Array (NDA). The main purpose of this receiver was to develop operational techniques for RFI mitigation. This hardware is now largely obsolete and was decommissioned years ago. However, the techniques remain and may be reused in future deployments.
 
-The core work in designing these operational RFI mitigation techniques relies on a detailed study of the statistical behavior of operators that can be easily implemented in real-time digital logic to create robust mean power estimators. This toolbox can then be used to develop custom implementations that address the challenges encountered in the design of digital receivers for radioastronomy.  Next, two implementations are presented:
+The core work in designing these operational RFI mitigation techniques relies on a detailed study of the statistical behavior of operators that can be easily implemented in real-time digital logic to create robust mean power estimators \cite{dumezviou:tel-00319939}. This toolbox can then be used to develop custom implementations that address the challenges encountered in the design of digital receivers for radioastronomy.  Next, two implementations are presented:
 
 \begin{itemize}
 \item HI red-shifted radio galaxies have the rest frequency of the hyperfine transition at 1420 MHz shifted into frequency bands allocated to L-band radar systems used for civil and military aircraft detection and ranging. Every 5 or 10 MHz, a radar system emits several kilowatts of power for one microsecond, with a pulse rate period of one millisecond. Theoretically, the sky is clear during the remaining 999 microseconds and available for astronomical observations. Detecting strong radar pulses with SNRs tens of dB above system noise is straightforward. The challenge lies in detecting weak pulses with negative-dB SNRs while maintaining an acceptable false alarm rate.
 
-This was successfully implemented using the previously mentioned toolbox, allowing the excision of data blocks contaminated by both weak and strong radar pulses before they are passed to the spectral analysis block. As a result, HI surveys can now be conducted without artifacts originating from radar systems.
-\item a time-frequency domain based on a MAD-estimated power criterion to mitigate Iridium constellation space-to-earth downlinks.  Such RFI was used to impair observations of 1667-MHz red-shifted OH line from mega-maser that would fall near 1622\ MHz.
+This was successfully implemented in the very limited ressources of Virtex II FPGAs using the previously mentioned toolbox, allowing the excision of data blocks contaminated by both weak and strong radar pulses before they are passed to the spectral analysis block. As a result, HI surveys can now be conducted without artifacts originating from radar systems.
+
+
+\item Red-shifted OH mega-masers may have their 1665 and 1667 MHz lines fall into the band used by the Iridium satellite constellation. This system manages access to the radio spectrum through a TFDMA scheme. During the test campaign, only a few percent of the millisecond-scale instantaneous spectrum was occupied, but after a few seconds of time integration, the entire band became corrupted.
+
+Spectral analysis was configured to generate data with time and frequency resolutions (3.4 kHz and 2.34 ms) tailored to the TFDMA characteristics. A MAD-estimated power criterion was then applied to discriminate between corrupted and pristine data slots, allowing RFI to be removed from the dataset before integration.
+
+\begin{figure}
+    \centering
+    \includegraphics[height=.28\textheight]{figures/IIIZw35_20040108.eps}
+    \caption{Re-observation of III Zw 35 on January 8, 2004, in real-time after 14 minutes of integration with the NRT: (a) Without "blanking." The vertical axis is adjusted to make the expected source profile visible. (b) With "blanking" (3.5\% of data eliminated). The source is clearly visible again.}
+    \label{fig:rfi_Iridium_blanked}
+\end{figure}
+
+This was implemented on TMS 6203 TI DSP chips to process the frequency band in real-time.
 \end{itemize}
 
 
