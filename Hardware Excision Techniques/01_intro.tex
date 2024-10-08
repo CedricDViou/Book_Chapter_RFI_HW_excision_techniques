@@ -8,9 +8,9 @@ The radiometer equation is fundamental in radio astronomy for determining the se
 \[ \Delta S = \frac{2 k_B T_{\text{sys}}}{A_{\text{eff}} \sqrt{2 \Delta f \tau}} \]
 where \( \Delta S \) is the minimum detectable flux density in Jansky (1 Jy = $10^{-26}$Wm$^2$Hz$^{-1}$), \( k_B =1.38 \times 10^{-23} \;\text{J} / \text{K}\) is the Boltzmann constant, \( T_{\text{sys}} \) is the system temperature in Kelvin (K), \( A_{\text{eff}} \) is the effective area of the telescope in $m^2$, \( \Delta f \) is the observed bandwidth in Hz, and \( \tau \) is the integration time in seconds (s). This equation underscores the importance of low system temperature, large effective area, broad bandwidth, and long integration time for enhancing the sensitivity and accuracy of astronomical observations.
 
-The sensitivity that can be achieved by modern radio astronomy systems is unrivaled in other radio services and applications. However, this fantastic achievement also comes at a cost. Observations are very susceptible to all kinds of human-made transmissions are other forms of electromagnetic radiation. A cell phone on the Moon would be among the brightest sources in the sky, at the respective frequencies. 
+The sensitivity that can be achieved by modern radio astronomy systems is unrivalled in other radio services and applications. However, this fantastic achievement also comes at a cost. Observations are very susceptible to all kinds of human-made transmissions are other forms of electromagnetic radiation. A cell phone on the Moon would be among the brightest sources in the sky, at the respective frequencies. 
 
-Astronomers usually refer to these anthropogenic signals as radio frequency interference (RFI), but it has to be pointed out that in legal terms, most of the disturbing features in our data is not considered as RFI by administrations and other spectrum management stakeholders. As the operators of radio transmitters usually have a license, the wanted transmissions, e.g., cell-phone carriers, are perfectly legal. 
+Astronomers usually refer to these anthropogenic signals as radio frequency interference (RFI), but it has to be pointed out that in legal terms, most of the disturbing features in our data are not considered as RFI by administrations and other spectrum management stakeholders. As the operators of radio transmitters usually have a license, the wanted transmissions, e.g., cell phone carriers, are perfectly legal. 
 
 In spectrum management, RFI specifically means any kind of unwanted emission, such as near spectral sidelobes, harmonics or intermodulation products, which can leak into the allocated band of another radio service. While the Radiocommunication Sector of the International Telecommunication Union (ITU-R) has acknowledged the requirements of radio astronomy already decades ago, the total amount of spectrum that is allocated to the radio astronomy service is low (\textbf{ADD some numbers}). As a consequence, in addition to measurements in the RAS bands, we are opportunistic -- observing the parts of the spectrum outside of the protected bands wherever and whenever possible at an observatory, as not every active radio service is equally utilised everywhere, 
 
@@ -25,7 +25,7 @@ An example of narrowband and broadband RFI as seen in the spectrogram of uGMRT i
 \begin{figure}
     \centering
     \includegraphics[scale=0.25]{Hardware Excision Techniques/figures/time_freq(1).jpg}
-    \caption{Spectrogram of uGMRT antenna showing broadband (powerline RFI) and narrowband (communication transmitters) RFI in 250-500 MHz band. Broadband powerline RFI is seen to be repeating every 10ms (submultiple of 50Hz powerline frequency)}
+    \caption{Spectrogram of uGMRT \cite{gupta2017upgraded} antenna showing broadband (powerline RFI) and narrowband (communication transmitters) RFI in 250-500 MHz band. Broadband powerline RFI is seen to be repeating every 10ms (submultiple of 50Hz powerline frequency)}
     \label{fig:ugmrt-rfi}
 \end{figure}
 
@@ -47,7 +47,7 @@ A typical radio astronomy receiver chain begins with the feed, which collects in
 
 Next, the amplified signal passes through a bandpass filter, which isolates the frequency range of interest. After filtering, the signal is often downconverted from its original high frequency to a lower intermediate frequency (IF) using a mixer and a local oscillator. This downconversion facilitates easier and more accurate signal processing.
 
-The IF signal is then further amplified and may undergo additional filtering before being digitized by an analog-to-digital converter (ADC). The ADC samples the signal at a high rate (typically Mega- to Giga Samples per second (MSps or GSps)), converting it into digital data that can be further processed to extract the astronomical information of interest. With increasing capabilities of modern digital hardware, the downconversion process mentioned above is often not even necessary anymore. Instead, the signal is digitized at the RF frequency. This can be even done close to the receiver box, which minimizes signal degradation when transporting it from the antenna to the computing facility of the observatory.
+The IF signal is then further amplified and may undergo additional filtering before being digitized by an analog-to-digital converter (ADC). The ADC samples the signal at a high rate (typically Mega- to Giga Samples per second (MSps or GSps)), converting it into digital data that can be further processed to extract the astronomical information of interest. With the increasing capabilities of modern digital hardware, the downconversion process mentioned above is often not even necessary anymore. Instead, the signal is digitized at the RF frequency. This can be even done close to the receiver box, which minimizes signal degradation when transporting it from the antenna to the computing facility of the observatory.
 
 RFI may occur at various stages in the receiver signal chain, and we distinguish the following levels of impact to the astronomical observation:
 \begin{itemize}
@@ -71,7 +71,7 @@ It is the aim of RAS spectrum management, to ensure that Level 0 is ensured in a
 \subsection{Motivation for real-time RFI mitigation}
 \label{subsection:hardware:introduction: motivations}
 
-Real-time RFI mitigation usually happens in the analog domain or at the highest time resolution (Nyquist rate or a fraction of it), which helps minimize the data corruption in downstream signal processing with minimal loss of astronomical data, thereby improving and enhancing the quality and accuracy of astronomical measurements. Figure 1 illustrates the increase in data loss in a typical radio telescope receiver signal processing chain.
+RFI mitigation in a radio observatory is carried out in different ways \cite{ford2014rfi}. Real-time RFI mitigation usually happens in the analog domain or at the highest time resolution (Nyquist rate or a fraction of it), which helps minimize the data corruption in downstream signal processing with minimal loss of astronomical data, thereby improving and enhancing the quality and accuracy of astronomical measurements. Figure~\ref{fig:real-time-rfi} illustrates the increase in data loss in a typical radio telescope receiver signal processing chain.
 Other benefits from real-time RFI mitigation are as follows:
 
 \begin{enumerate}

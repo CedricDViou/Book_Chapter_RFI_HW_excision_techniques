@@ -18,6 +18,9 @@ New filters to be published soon (papers in progress).
 
 
 \subsubsection{Analog: GMRT (Kaushal)}
+
+Strong narrowband RFI from various sources that affect the upgraded GMRT receiver’s dynamic range and linearity are mitigated using band reject/notch filters. These are incorporated in the front end of the receiver system to ensure that the system operates in the linear region by rejecting strong and persistent RFI from strong short-range transmissions, mobile communication, and broadcast television \cite{sureshkumar2016rfi}. Efforts to use the latest techniques to have the filter before the LNA are being developed to avoid saturation due to strong interfering signals.
+
 \subsubsection{Analog: switchable notch filters Green Bank}
 \subsubsection{Digital: switch ADC fromm 3 to 12 bits at Green Bank}
 
@@ -25,6 +28,31 @@ New filters to be published soon (papers in progress).
 
 \begin{itemize}
 \item MAD filter GMRT (Kaushal)
+
+The upgraded GMRT (uGMRT) \cite{gupta2017upgraded} operates from 120 to 1450 MHz and has near-seamless coverage in this band. It is an array of 30, 45m diameter parabolic dishes and a sensitive receiver which operates in the interferometry and beamformer modes. The array is located 80 km north of Pune in India. The increase in the population around the array in the last 30 years along with the proliferation of communication devices, satellites, and mobile phones, has caused an increase in the RFI. The uGMRT signal processing backend has a real-time RFI excision system for mitigating RFI and achieving sensitivity levels close to the theoretical limits. \\
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.7]{Hardware Excision Techniques/figures/Band4_timeseries_ed.jpg}
+    \caption{A 50ms time-series of single antenna Band-4 (550-850 MHz) data. Powerline RFI can be seen to occur in bunches repeating every 10ms. The data is acquired at the input of the signal processing system with a time resolution of 5ns.}
+    \label{fig:ugmrt-b4-ts}
+\end{figure}
+
+One of the main causes of RFI at frequencies less than 1 GHz is sparking and corona discharge on the high-tension lines and transformer installations around the array. This type of RFI is impulsive in the time domain (Ref. Figure~\ref{fig:ugmrt-b4-ts} resulting in a broadband increase in the power in the spectral domain. Since this type of RFI cannot be mitigated by frequency selective filters in the receiver system, a real-time statistical RFI excision system was developed which operates on digitized time-series from each antenna and polarization. This system is designed to excise strong impulses in the received signal. \\
+
+The real-time system currently implemented on FPGA \cite{buch2019real} uses a median-based robust estimation and threshold detection scheme. Each incoming sample (at Nyquist rate) is compared with a robust threshold and samples detected as RFI are replaced with a constant value, threshold or digital noise sample. After rigorous testing on various astronomical data products, the RFI system is released for observations and is currently extensively used for observations in the lower frequency bands of uGMRT (< 1GHz). An example of imaging through this system wherein half the antennas used the original signal whereas the other half used the filtered copy \cite{buch2022performance} is shown in Figure~\ref{fig:ugmrt-b4-image}. \\
+
+\begin{figure}
+    %\centering
+    \includegraphics[scale=0.5]{Hardware Excision Techniques/figures/band4_point_source_rfi_filtering.png}
+    \caption{uGMRT image, 9 antenna, point source 3C48 observed in band-4 (550-850 MHz). The image is built using baselines $<$0.5km and tested simultaneously to see the effects of real-time RFI filtering. The image corrupted by broadband RFI (left) is improved by a factor of 3 in the filtered version (right). Image courtesy: Ruta Kale, NCRA, India.
+}
+    \label{fig:ugmrt-b4-image}
+\end{figure}
+
+A possibility of refinements to the technique including mitigating low-level RFI, using learning-based approaches, and implementing similar techniques in real-time for mitigating narrowband RFI \cite{buch2016real} is being looked at. The technique is also being proposed \cite{buch2023real}for upcoming telescope like the SKA.\\
+
+
 \item post-PFB (LWA+DSA-2000 - Greg)
 \end{itemize}
 
@@ -38,13 +66,16 @@ New filters to be published soon (papers in progress).
 
 The Spectral Kurtosis (SK) technique is a statistical method used for real-time detection of non-Gaussian signals, such as radio frequency interference (RFI), within Gaussian noise in radio astronomy data. The SK estimator distinguishes signals by comparing power and power-squared values of spectral data to detect deviations from Gaussian behaviour. The Expanded Owens Valley Solar Array (EOVSA) implements this SK technique in its correlator, using an FPGA-based system to perform real-time SK calculations directly within the Fourier transform engine \cite{}. This design allows the system to flag and exclude contaminated data dynamically, enhancing the quality of observations by effectively identifying and mitigating RFI while preserving genuine astronomical signals.
 
-\item Frequency and Time Median filter on Nancay Decameter Array (Cedric) / MeFisTo NDA (Lamy)
+\item MeFisTo: Frequency and Time Median filter on Nançay Decameter Array (Cedric)
 
-Will describe here a receiver that operates in the 10-35 MHz band for solar and Jovian daily observations since 2015 (?).
+Within 5 to 88 MHz, the lowest part of the frequency band accessible from ground-based telescopes, Sky is crowded with audio and timing broadcast users allocated with a frequency channels much closer than the frequency resolution used to meet the Science requirements of Solar and Jovian observations.
+This band is also the place where wide band RFI take place, generated by electric fences, spark ignition systems from internal combustion engines, power lines.
 
-It implements a classical (averaged-based) time-frequency analysis using a Welch averaged periodogram and simultaneously computes the same periodogram with a median filter applied on the frequency axis first and then on the time axis to mitigate narrow-band and wide-band RFI from observations.
+Time and frequency analysis of this band is required to be performed at a regime where temporal and spectral resolutions far exceed the observation scientific needs.  This leads to data streams and data sets much greater than required for Science.
 
-%Lecacheux, A., Dumez-Viou, C., Klein, K.-L., 2013. Journées scientifiques URSI–France. pp. 73–76
+Since 2013, a receiver \cite{lecacheux2013, 2017pre8.conf..455L} based on 80-MSps ADCs and Stratix IV FPGA implements a real-time streaming Blackman-Harris-windowed 64k-FFT followed by a classical (averaged-based) time-frequency analysis using a Welch averaged periodogram and simultaneously computes the same periodogram with a median filter (kernel size=64) applied on the frequency axis first and then on the time axis (kernel size=128) to mitigate narrow-band and wide-band RFI from observations.  The frequency resolution for RFI mitigation is as low as 1.2 kHz but is then raised to 78 kHz for Science purposes.  The time resolution for RFI mitigation is 0.8 ms but raised to 104 ms to provide a sustainable datarate for 24/7 monitoring of Sun and Jupiter.
+
+
 \item RFI mitigation implementations on RDH at Nançay (Cedric)
 
 Will describe here :
@@ -68,7 +99,7 @@ The main codebase for our flagger is https://github.com/ska-sa/katsdpsigproc. Th
 
 
 \item MeerKAT: calibration step VarThreshold  (see Sihlangu and Ludwig)
-The calibration pipeline which follows after ingest has a more advanced “2-D” flagger (“cal\_rfi”). It is a tweaked AOFlagger written from scratch in Numba. It identifies the background by running along both the time and frequency axes. It performs two passes, first finding a smooth background on previously unflagged parts and then sum-thresholding. It only flags HV and VH (cross-hand) data and extends the results to HH and VV. It flags the calibrator before solving for gains, and it flags the target after applying gain corrections to it, which allows more stringent flagger parameters. It typically flags about 20% of the data in the L band. This applies to all imaging modes but not pulsar mode, which has its own RFI mitigation scheme.
+The calibration pipeline which follows after ingest has a more advanced “2-D” flagger (“cal\_rfi”). It is a tweaked AOFlagger written from scratch in Numba. It identifies the background by running along both the time and frequency axes. It performs two passes, first finding a smooth background on previously unflagged parts and then sum-thresholding. It only flags HV and VH (cross-hand) data and extends the results to HH and VV. It flags the calibrator before solving for gains, and it flags the target after applying gain corrections to it, which allows more stringent flagger parameters. It typically flags about 20\% of the data in the L band. This applies to all imaging modes but not pulsar mode, which has its own RFI mitigation scheme.
 
 
 \end{itemize}
@@ -80,7 +111,7 @@ The calibration pipeline which follows after ingest has a more advanced “2-D�
 \subsubsection{Preventive: satellite avoidance at Green Bank}
 Satellite boresight avoidance is a technique to prevent satellites from directly illuminating a telescope's primary observation direction. In experiments conducted by the Green Bank Telescope (GBT) with Starlink satellites, this technique was tested \cite{nhan2024spectrumcoexistencedemonstrationeffectiveness} by adjusting the satellite constellation's configuration based on real-time telescope pointing data and predicted satellite trajectories. This approach minimizes interference by dynamically coordinating telescope operations with satellite activities, such as emission control and beam steering. The process is facilitated by the Operational Data Sharing (ODS) system, an autonomous platform developed by the National Radio Astronomy Observatory (NRAO). ODS provides satellite operators with real-time updates on telescope positions and observing frequencies, allowing them to adjust satellite operations accordingly. With frequent updates, potentially every minute, ODS ensures effective coordination, especially during close satellite passes near the telescope’s boresight
 
-\subsubsection{Analog: Notch filters for uGMRT (Kaushal)}
+%\subsubsection{Analog: Notch filters for uGMRT (Kaushal)}
 \subsubsection{Analog : Tunable notch filter DSA-2000 (Greg)}
 
 The tunable notch filters are designed to mitigate RFI in the analog front end of the DSA-2000 receivers. The Quad-Stub Resonator Filter uses four high-Q “series LC” stubs, each controlled by voltage-tuned varactors, allowing independent frequency tuning for precise RFI mitigation. The filter achieves deep notch attenuation, adjustable within a range of 550 MHz to 1050 MHz, with peak attenuation up to 62.5 dB. It features a chassis design with RFI-tight seals and SMA connectors to prevent interference coupling. The filter's response is fine-tuned through individual varactor bias adjustments, enabling adaptable and effective RFI suppression across a broad frequency range.
@@ -99,7 +130,7 @@ The time-domain coherent cancellation (CTC) technique is a method used to mitiga
 \subsubsection{Digital: Threshold-based pre-correlation RFI detection technique to be used in SKA.Mid (Thushara)}
 \label{subsection:hardware:catalog:ska-mid}
 
-The Correlator Beamformer for the Mid-frequency telescope for the Square Kilometre Array (SKA-Mid. CBF) uses a 'power threshold-based' RFI detection scheme. The main objective is to preserve the linearity of the signal chain while achieving the desired dynamic range to maintain the sensitivity. The architecture of the proposed RFI detector/flagger module is shown in Figure~\ref{fig:rfi_df_ska_mid_cbf}. As shown there, two time scales are involved:
+The Correlator Beamformer for the Mid-frequency telescope for the Square Kilometre Array (SKA-Mid. CBF) uses a 'power threshold-based' RFI detection scheme. The main objective is to preserve the linearity of the signal chain while achieving the desired dynamic range to maintain the sensitivity. The architecture of the proposed RFI detector/flagger module is shown in Figure~\ref{fig:rfi_df_ska_mid_cbf}. As shown there, two-time scales are involved:
 \begin{enumerate}
     \item Long-term ($>$1 sec, considering on/off state of the noise diode) for establishing an average power level, and
     \item Short-term to detect and flag bursting RFI to prevent downstream spectral splatter.
@@ -127,9 +158,9 @@ The core idea is to leverage the spatial diversity of RFI and astronomical signa
 
 \item Reference-antenna
 
-A reference antenna can be used to mitigate RFI in real time by providing an accurate estimation of the RFI spatial signature, which can then be used for spatial filtering in radio astronomy. The reference antenna is positioned to specifically capture the RFI without significantly receiving the astronomical signals. This RFI reference signal is correlated with the signals received by the main telescope array, allowing the RFI's spatial signature to be extracted and identified. This information is then used to project out the RFI from the main array's data using spatial filtering techniques, such as subspace projection.
+A reference antenna can be used to mitigate RFI in real-time by providing an accurate estimation of the RFI spatial signature, which can then be used for spatial filtering in radio astronomy. The reference antenna is positioned to specifically capture the RFI without significantly receiving the astronomical signals. This RFI reference signal is correlated with the signals received by the main telescope array, allowing the RFI's spatial signature to be extracted and identified. This information is then used to project out the RFI from the main array's data using spatial filtering techniques, such as subspace projection.
 
-By continuously updating the RFI spatial signature using subspace tracking algorithms, like the Power Method or Rayleigh Quotient Iteration, the system can adapt to changes in the RFI environment in real time, effectively cancelling out the interference without impacting the astronomical signals. This approach is particularly effective for managing multiple RFI sources and dynamically changing interference patterns, enabling high-fidelity observations even in heavily contaminated radio bands\cite{hellbourg2014reference,sardarabadi2015spatial}.
+By continuously updating the RFI spatial signature using subspace tracking algorithms, like the Power Method or Rayleigh Quotient Iteration, the system can adapt to changes in the RFI environment in real-time, effectively cancelling out the interference without impacting the astronomical signals. This approach is particularly effective for managing multiple RFI sources and dynamically changing interference patterns, enabling high-fidelity observations even in heavily contaminated radio bands\cite{hellbourg2014reference,sardarabadi2015spatial}.
 
 \end{itemize}
 \subsubsection{Digital AI/ML} (Greg, Kaushal)
@@ -146,9 +177,15 @@ Automated pattern recognition to identify RFI in real-time radio astronomy data 
 
 \item External flag generation (RFI monitor?) (Greg)
 
-An RFI detector can provide real-time flags for radio telescopes by using machine learning techniques to automatically identify and classify interference in the radio frequency spectrum. The system described here \cite{9111666} employs a deep neural network (DNN) that processes time-frequency data, detecting and drawing bounding boxes around RFI events. This approach allows the detector to continuously monitor the RF environment and flag novel or anomalous RFI events in real-time. The detected RFI events are flagged based on their spatial, spectral, and temporal characteristics, allowing the telescope to dynamically adjust its data processing pipeline to exclude or compensate for contaminated signals.
+An RFI detector can provide real-time flags for radio telescopes by using machine learning techniques to automatically identify and classify interference in the radio frequency spectrum. The system described here \cite{9111666} employs a deep neural network (DNN) that processes time-frequency data, detecting and drawing bounding boxes around RFI events. This approach allows the detector to continuously monitor the RF environment and flag novel or anomalous RFI events in real time. The detected RFI events are flagged based on their spatial, spectral, and temporal characteristics, allowing the telescope to dynamically adjust its data processing pipeline to exclude or compensate for contaminated signals.
 
 By integrating with the telescope’s data stream, the system can provide immediate notifications about RFI, enabling telescopes to respond promptly to interference without manual intervention. This real-time detection capability is particularly useful for maintaining the quality of astronomical observations by preventing the degradation of data due to unwanted interference.
 
-\item Use of higher order statistics (Kaushal)
+\item Real-time RFI Prediction for Satellite RFI at GMRT
+
+For spatially confined sources of interference that affect the GMRT for a fraction of the observing time when the beam of the telescope cuts the beam of the satellites, a real-time satellite monitoring system has been implemented. This system informs the user ahead of time about the satellite passes, and typical duration, logs the data, and raises an alarm in the control room \cite{raybole2016real}.
+
+
+
+%\item Use of higher order statistics (Kaushal)
 \end{itemize}
