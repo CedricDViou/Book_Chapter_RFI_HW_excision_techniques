@@ -1,2 +1,57 @@
 \section{Summary table} (Kaushal, All to contribute)
 \label{section:hardware:summary}
+
+A summary of real-time techniques applicable to different types and sources of RFI including the location of excision in the receiver chain is provided in Table ~\ref{real-time-tech}. \\
+
+
+
+
+\begin{table}
+  \begin{center}
+  \caption{Summary of real-time techniques and mitigation location based on the type and source of RFI}
+  \label{real-time-tech}
+ {\scriptsize
+  \begin{tabular}{|l|c|c|c|}\hline 
+{\bf RFI Type} & {\bf Typical Source} & {\bf Mitigation At} & {\bf Technique} \\ 
+    \hline
+Strong, continuous,
+ & Terrestrial Transmitters & Frontend  & Analog filters\\
+  Narrowband RFI  & (FM stations etc.) &  & (notch/band-reject) \\ \hline
+  Intermittent Narrowband & Terrestrial transmitters & Backend & Statistical RFI \\
+  RFI &  & (post-correlation,
+ & mitigation \\ 
+&  & frequency domain) & and excision
+Techniques \\ \hline
+Broadband RFI & Powerline RFI, & Backend & Statistical RFI \\
+&  sparking from & (pre-correlation, & mitigation \\ 
+&  vehicles & time domain) & and excision Techniques \\ \hline
+
+Spatially Confined & Extra-terrestrial & Antenna + Digital & Adaptive cancellation, \\
+RFI & (e.g. satellites) & Backend & spatial filtering, \\
+&  &  &  nulling \\ \hline
+
+%silicon & $~0.1-10$ & enhanced $^{13}$C, $^{14}$N, $^{22}$Ne, s-process elem. & AGB stars & $> 90$~\% \\
+%carbide & $~30$ & low $^{12}$C/$^{13}$C, often enh.\ $^{15}$N & J-type C-stars (?) & $< 5$~\% \\
+% & & enhanced $^{12}$C, $^{15}$N, $^{28}$Si; extinct $^{26}$Al, $^{44}$Ti & Supernovae & 1~\% \\
+% & & low $^{12}$C/$^{13}$C, low $^{14}$N/$^{15}$N & novae &  $0.1$~\% \\ \hline
+%graphite & $~0.1-10$ & enh.\ $^{12}$C, $^{15}$N, $^{28}$Si; extinct $^{26}$Al, $^{41}$Ca, $^{44}$Ti &
+% SN (WR?) & $< 80$~\% \\ 
+% & $~10$ & s-process elements & AGB stars & $> 10$~\% \\
+% & & low $^{12}$C/$^{13}$C  & J-type C-stars (?) & $< 10$~\% \\
+% & & low $^{12}$C/$^{13}$C; Ne-E(L) & novae & 2~\% \\ \hline
+% corundum/ & $~0.1-5$ & enhanced $^{17}$O, moderately depl. $^{18}$O & RGB / AGB & $> 70$~\% \\
+% spinel/ & $~50$ & enhanced $^{17}$O, strongly depl. $^{18}$O & AGB stars & 20~\% \\
+% hibonite & & enhanced $^{16}$O & supernovae & 1~\% \\ \hline
+% silicates & $~0.1-1$ & similar to oxides above & & \\
+ %&  $~140$ & & & \\ \hline
+ %silicon & $~1$ & enhanced $^{12}$C, $^{15}$N, $^{28}$Si; extinct $^{26}$Al & supernovae & 100~\% \\
+ %nitride & $~ 0.002$ & & & \\ \hline
+  \end{tabular}
+  }
+ \end{center}
+%\vspace{1mm}
+% \scriptsize{
+%{\it Notes:}\\
+ % $^1$For the abund.\ (in wt.\ ppm) the reported maximum values from different meteorites are given. \\
+%  $^2$Note uncertainty about actual fraction of diamonds that are pre-solar and for fraction of graphite attributed to SN and AGB stars (see discussion in text).}
+\end{table}
