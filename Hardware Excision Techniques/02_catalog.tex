@@ -79,7 +79,7 @@ Time and frequency analysis of this band must be performed with temporal and spe
 
 Since 2013, a receiver \cite{lecacheux2013, 2017pre8.conf..455L} based on 80-MSps ADCs and a Stratix IV FPGA has implemented a real-time streaming Blackman-Harris-windowed 64k-FFT, followed by classical (averaged) time-frequency analysis using a Welch-averaged periodogram. Simultaneously, the same periodogram is computed with a median filter (kernel size=64) applied first on the frequency axis, then on the time axis (kernel size=128), to mitigate narrowband and wideband RFI in observations. The frequency resolution for RFI mitigation is as low as 1.2 kHz, but it is raised to 78 kHz for scientific purposes. The time resolution for RFI mitigation is 0.8 ms but is increased to 104 ms to provide a sustainable data rate for 24/7 monitoring of the Sun and Jupiter.
 
-\begin{figure}
+\begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{figures/MeFisTo.png}
     \caption{Solar activity observed without (left) and with (right) RFI median TF-filtering.  Wideband RFI and ionospheric sounders are eliminated, and shortwave broadcasts are significantly attenuated. \cite{lecacheux2013}}
@@ -103,9 +103,9 @@ This was successfully implemented in the very limited resources of Virtex II FPG
 
 Spectral analysis was configured to generate data with time and frequency resolutions (3.4 kHz and 2.34 ms) tailored to the TFDMA characteristics. A MAD-estimated power criterion was then applied to discriminate between corrupted and pristine data slots, removing RFI from the dataset before integration.
 
-\begin{figure}
+\begin{figure}[ht]
     \centering
-    \includegraphics[height=.28\textheight]{figures/IIIZw35_20040108.eps}
+    \includegraphics[width=\textwidth]{figures/IIIZw35_20040108.png}
     \caption{Re-observation of III Zw 35 on January 8, 2004, in real-time after 14 minutes of integration with the NRT: (a) Without "blanking." The vertical axis is adjusted to make the expected source profile visible. (b) With "blanking" (3.5\% of data eliminated). The source is visible again.}
     \label{fig:rfi_Iridium_blanked}
 \end{figure}
@@ -153,7 +153,9 @@ The tunable notch filters are designed to mitigate RFI in the analog front end o
 
 Reconfigurable Intelligent Surfaces (RIS) can mitigate RFI at the telescope receiver by dynamically shaping the electromagnetic wavefronts to create a destructive interference zone around the receiver \cite{zou2022scisrs,wei2024ris,wei2023multistage}. The RIS array, composed of multiple controllable elements, adjusts the phase and amplitude of reflected signals to precisely counteract incoming RFI. By steering reflected signals from the RIS in such a way that they are out of phase with the incident RFI, the RIS effectively cancels the RFI energy before it reaches the telescope’s receiver. This approach allows for the creation of an electromagnetic quiet zone, enabling the telescope to perform sensitive astronomical observations without interference from external RFI sources, such as aircraft and satellites, without altering the telescope’s primary astronomical signals.
 
-\subsubsection{Digital: SK EDD Effelserg}
+\subsubsection{Digital: SK EDD Effelsberg}
+The Effelsberg Direct Digitisation (EDD) System is a state-of-the-art fully digital receiver. Analog-to-digitial conversion occurs directly in the frontend and the digital baseband signal is transmitted over 100-GbE Ethernet to a processing cluster, where the signal is fed into GPUs based on commodity off-the-shelf (COTS) components. While this approach requires extra effort to shield the receiver inputs from self-generated RFI from the extra hardware close to the receivers, it offers a lot of benefits in terms of signal quality and flexibility. Currently, there are several Pulsar, spectroscopy, spectro-polarimetry and VLBI modes available. Adding new features is easy owing to the versatility of the GPU approach. First tests are also ongoing to implement the spectral kurtosis estimator-based RFI flagging. 
+
 \subsubsection{Digital: cyclic spectroscopy Green Bank}
 
 \subsubsection{Digital: Excision in time parametric subtraction Ellingson (Greg)}
