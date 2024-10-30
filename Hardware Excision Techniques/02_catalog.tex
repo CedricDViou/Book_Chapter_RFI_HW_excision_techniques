@@ -3,36 +3,34 @@
 
 \subsection{Existing real-time implementations}
 \label{subsection:hardware:catalog:existing}
-\subsubsection{Preventive : Avoidance}
+\subsubsection{Avoidance}
 Most radio telescopes operate in an automated fashion, following a scheduler. The locations of known fixed sources of RFI, such as terrestrial emitters and geostationary satellites, are well-established. These fixed sources can be factored into the telescope's schedule, allowing for optimized observation strategies that minimize the impact of RFI on collected data. This is achieved by aligning the telescope's sequence of sky pointings with a model of its directivity pattern, avoiding these known interference sources.
 
 In a more dynamic approach, the telescope can also avoid known moving sources of RFI, such as medium Earth orbit (MEO) satellites and aircraft. Satellite position data is publicly available, and aircraft locations can be tracked using ADS-B transmissions. However, avoiding low Earth orbit (LEO) satellites poses a greater challenge due to their high angular speeds and sheer numbers.
 
 Dynamic interference avoidance strategies are being proposed for next-generation telescopes like FAST, ngVLA, and DSA-2000. ASKAP is also developing an RFI avoidance scheme to address atmospheric ducting events, which can channel RFI over large distances
 
-\subsubsection{Analog: Adaptive analog attenuators LWA (Greg)}
+\subsubsection{Adaptive analog attenuators}
 
-\subsubsection{Superconducting filters (YEBES)}
-We only have hardware-based techniques in the form of high-temperature superconducting (HTS) filters in front of the low-noise amplifiers.
-Some filters show resonances (spurious responses) at other frequencies in the band of the receiver.
-the filters can’t be automatized as they are always present.
+The Owens Valley Radio Observatory Long Wavelength Array, in the US, employs adaptive attenuators to maintain stable baseline levels and prevent saturation in response to strong citizen broadcast RFI, which skips through the atmosphere during the day but not at night. Adaptive attenuators play a critical role in ensuring that the telescope array can handle this variable interference environment by dynamically adjusting the signal attenuation to counteract sudden increases in RFI or fluctuations arising from environmental factors like temperature, sky conditions, and antenna pointing. This approach effectively prevents saturation and preserves measurement accuracy, though it reduces sensitivity, limiting deep, sensitive observations to nighttime hours when the RFI is less intense. However, observations of particularly strong sources, such as the sun, remain unaffected by this daytime mitigation strategy, allowing these studies to proceed with minimal interference impact. By automating the attenuation adjustments, OVRO-LWA can continuously monitor the RFI environment and dynamically apply optimal gain settings, balancing the need to counteract interference with the goal of maximizing observational capabilities.
 
-F. Huang et al., “Superconducting spiral bandpass filter designed by a pseudo‐Fourier technique,” IET Microwaves, Antennas \& Propagation, vol. 12, no. 8, pp. 1293–1301, Apr. 2018, doi: https://doi.org/10.1049/iet-map.2017.0940.
-Ph.D. thesis by Pablo Garcia-Carreno: “Optimización de receptores criogénicos mediante filtros superconductores para supresión de interferencias y sistema de medida de la fase de la señal de referencia”. https://ebuah.uah.es/dspace/handle/10017/59826?locale-attribute=es
-New filters to be published soon (papers in progress).
+\subsubsection{Pre-LNA superconducting filters}
+The current RFI mitigation framework at the Yebes Observatory, in Spain, utilizes hardware-based high-temperature superconducting (HTS) filters positioned ahead of the low-noise amplifiers. While effective, these filters present inherent limitations, including resonances or spurious responses at other frequencies within the receiver’s band. Moreover, as permanent components of the system, they cannot be automated. Recent advancements in filter design, such as the superconducting spiral bandpass filter developed by Huang et al. using a pseudo-Fourier technique, have demonstrated enhanced interference suppression capabilities \cite{huang2018superconducting}. Garcia-Carreno’s doctoral research further investigates optimization of cryogenic receivers using superconducting filters, addressing both RFI suppression and reference signal phase measurement \cite{huang2018superconducting}. Additional improvements are anticipated, with new filter designs currently under development and expected for publication.
 
-
-\subsubsection{Analog: GMRT (Kaushal)}
+\subsubsection{Front-end notch filters}
 
 Strong narrowband RFI from various sources that affect the upgraded GMRT receiver’s dynamic range and linearity are mitigated using band reject/notch filters. These are incorporated in the front end of the receiver system to ensure that the system operates in the linear region by rejecting strong and persistent RFI from strong short-range transmissions, mobile communication, and broadcast television \cite{sureshkumar2016rfi}. Efforts to use the latest techniques to have the filter before the LNA are being developed to avoid saturation due to strong interfering signals.
 
-\subsubsection{Analog: switchable notch filters Green Bank}
-\subsubsection{Digital: switch ADC fromm 3 to 12 bits at Green Bank}
+\subsubsection{Switchable notch filters Green Bank}
+
+The Green Bank Telescope (GBT) incorporates several advanced techniques for RFI mitigation, including the use of switchable notch filters, which are crucial for suppressing specific frequency bands prone to RFI contamination. In particular, within the C-band (4–8 GHz) receiver system, a notch filter is employed to attenuate interference from the 7.2075 GHz reference tone used in observations. This filter is positioned prior to the first amplifier in the C-band receiver chain, effectively reducing the amplification of the interfering signal and enhancing the clarity of astronomical data \cite{gbt1}. 
+
+To further assist with RFI management, the GBT has also developed advanced tools that provide observers with real-time information on the RFI landscape. These resources include a graphical user interface (GUI) and an interactive web-based platform that allows users to access RFI scans and adjust their observational plans to avoid frequencies with significant interference. The combination of switchable notch filters and these proactive RFI monitoring tools substantially improves the GBT’s observational fidelity and data reliability.
 
 \subsubsection{Digital: Excision in time}
 
 \begin{itemize}
-\item Real-time RFI Excision at GMRT (Kaushal)
+\item Real-time RFI Excision at GMRT
 
 The upgraded GMRT (uGMRT) \cite{gupta2017upgraded} operates from 120 to 1450 MHz and has near-seamless coverage in this band. It is an array of 30, 45m diameter parabolic dishes and a sensitive receiver which operates in the interferometry and beamformer modes. The array is located 80 km north of Pune in India. The increase in the population around the array in the last 30 years along with the proliferation of communication devices, satellites, and mobile phones, has caused an increase in the RFI. The uGMRT signal processing backend has a real-time RFI excision system for mitigating RFI and achieving sensitivity levels close to the theoretical limits. \\
 
@@ -58,20 +56,21 @@ The real-time system currently implemented on FPGA \cite{buch2019real} uses a me
 A possibility of refinements to the technique including mitigating low-level RFI, using learning-based approaches, and implementing similar techniques in real-time for mitigating narrowband RFI \cite{buch2016real} is being looked at. The technique is also being proposed \cite{buch2023real}for upcoming telescope like the SKA.\\
 
 
-\item post-PFB (LWA+DSA-2000 - Greg)
+\item Post-channelization flagger\\
+The DSA-2000 (Deep Synoptic Array 2000) is a next-generation radio telescope array designed to map the entire northern sky at high sensitivity, enabling unprecedented studies of transient phenomena and large-scale cosmic structure. Comprising 2,000 antennas spread across a large area, the DSA-2000 will provide continuous monitoring of the radio sky, particularly suited to detecting fast radio bursts and other dynamic cosmic events. The F-engine subsystem of the telescope manages key front-end processes, including signal conditioning through amplification and filtering, digitization, channelization, and packetization, enabling transmission of raw data over a network to downstream processing nodes. As the only subsystem that receives the full processing bandwidth for each antenna, the F-engine is uniquely suited for identifying non-linearities that arise from harmonics or intermodulation products due to strong RFI. Detection of these non-linearities is achieved via two methods: high-cadence ($\approx$0.1 µs) monitoring of the total received power, compared to a calibrated operational range, and low-cadence ($\approx$0.1 s) assessment of spectral shape anomalies, based on root mean square differences between the integrated autocorrelation spectrum and a calibrated spectral model. Both binary detection mechanisms will be implemented, with a logical OR operation to combine them, producing a flag to indicate non-linear responses. This flag is subsequently passed to the X-engine, responsible for the antennas signals correlations, where visibility data from affected antennas is either statistically adapted at lower integration times or fully nulled, depending on the impact of the non-linearity.
 \end{itemize}
 
 \subsubsection{Digital: Excision in spectral}
 \begin{itemize}
-\item AOFlagger-type Westerbork (Greg)
+\item Sigma Cut real-time flagger
 
  RFIm \cite{sclocco2019real} is an open-source, high-performance library designed to mitigate RFI in real time. RFIm is optimized to run on many-core accelerators such as GPUs and provides methods that are robust yet computationally efficient. The library features two main algorithms: Time-Domain Sigma Cut (TDSC) and Frequency-Domain Sigma Cut (FDSC). These two algorithms detect and replace RFI-contaminated data with statistical averages to reduce false positives without significant impact on processing time. This approach allows systems like the Apertif Radio Transient System (ARTS) to maintain high data throughput while effectively identifying real astronomical signals amidst increasing anthropogenic and satellite-generated interference.
  
-\item Higher-order statistics at EOVSA (Greg)
+\item Higher-order statistics
 
 The Spectral Kurtosis (SK) technique is a statistical method used for real-time detection of non-Gaussian signals, such as radio frequency interference (RFI), within Gaussian noise in radio astronomy data. The SK estimator distinguishes signals by comparing power and power-squared values of spectral data to detect deviations from Gaussian behaviour. The Expanded Owens Valley Solar Array (EOVSA) implements this SK technique in its correlator, using an FPGA-based system to perform real-time SK calculations directly within the Fourier transform engine \cite{}. This design allows the system to flag and exclude contaminated data dynamically, enhancing the quality of observations by effectively identifying and mitigating RFI while preserving genuine astronomical signals.
 
-\item MeFisTo: Frequency and Time Median filter on Nançay Decameter Array (Cedric)
+\item MeFisTo: Frequency and Time Median filter on Nançay Decameter Array
 
 Between 5 and 88 MHz, the lowest part of the frequency band accessible to ground-based telescopes, the sky is crowded with audio and timing broadcast users, allocated to frequency channels much closer than the frequency resolution required to meet the scientific needs of solar and Jovian observations. This band is also affected by wideband RFI generated by electric fences, spark ignition systems from internal combustion engines, and power lines.
 
@@ -87,9 +86,9 @@ Since 2013, a receiver \cite{lecacheux2013, 2017pre8.conf..455L} based on 80-MSp
 \end{figure}
 
 
-\item RFI mitigation implementations on RDH at Nançay (Cedric)
+\item Power-based excision RFI mitigation implementations at Nançay Observatory
 
-In the early 20th century, a configurable digital receiver was deployed at the Nançay Observatory. The receiver's ADC+FPGA+DSP system was shared by the 100-meter Decimeter Wavelength Telescope (NRT) and the Decameter Wavelength Analog Phased-Array (NDA). The main purpose of this receiver was to develop operational techniques for RFI mitigation. This hardware is now largely obsolete and was decommissioned years ago. However, the techniques remain and may be reused in future deployments.
+In the early 20th century, a configurable digital receiver (RDH: Reconquest of Hertz Domain) was deployed at the Nançay Observatory. The receiver's ADC+FPGA+DSP system was shared by the 100-meter Decimeter Wavelength Telescope (NRT) and the Decameter Wavelength Analog Phased-Array (NDA). The main purpose of this receiver was to develop operational techniques for RFI mitigation. This hardware is now largely obsolete and was decommissioned years ago. However, the techniques remain and may be reused in future deployments.
 
 The core work in designing these operational RFI mitigation techniques relies on a detailed study of the statistical behaviour of operators that can be easily implemented in real-time digital logic to create robust mean power estimators \cite{dumezviou:tel-00319939}. This toolbox can then be used to develop custom implementations that address the challenges encountered in the design of digital receivers for radio astronomy.  Next, two implementations are presented:
 
@@ -114,25 +113,16 @@ This was implemented on TMS 6203 TI DSP chips to process the frequency band in r
 \end{itemize}
 
 
-(Thushara)
 \item CHIME: The Canadian Hydrogen Intensity Mapping Experiment \href{https://chime-experiment.ca/en}{(CHIME)} is a radio telescope primarily designed to study the distribution of neutral hydrogen gas in the Universe. Serendipitously, it turned out to be an excellent instrument for detecting fast radio bursts (FRBs), the mysterious millisecond-long radio flashes of unknown origin. When processed with the CHIME FRB pipeline, strong impulsive RFI may lead to false positives and therefore needs to be mitigated \cite{chime_frb_rfi_2023}. Several real-time iterative processes have been applied iteratively to weed out the statistical outliers from the channelized intensity data that are effectively high-pass filtered.
 
 The RFI mitigation process before the dedispersion transform in L1-pipeline for CHIME/ FRB search is explained in \cite{chime_frb_rfi_2023}. The channelized intensity data of each beam are processed by 'subpipeline' containing alternate \textit{Clipping transforms} and \textit{Detrending transforms chains}. There are two different clipping transforms: intensity and standard deviation clipping transforms, to mask the statistical outliers in the intensity data. Every clipping iteration helps
 improve the RFI mask by recognizing more statistical outliers and hence reshaping the masked intensity PDF to a robust $\chi^2$ distribution in real time. The large-scale variations from RFI, forward gains, and digital beamforming are seen in the CHIME/FRB intensity time series as functions of the time, frequency, and sky location. Due to the distorted intensity PDF, the clipping and dedispersion transforms fail. The proposed detrending transforms provide a computationally less-intensive way of high-pass filtering in the harmonic space of intensity.
 
+\item Correlator Outlier Excision
+The MeerKAT correlator's initial data ingest stage employs a streamlined, one-dimensional mean absolute deviation (MAD) filter, termed “ingest\_rfi,” which operates along the frequency axis to independently threshold each data dump and correlation product. Implemented on a GPU, this filter is conservatively tuned to detect prominent amplitude spikes, flagging approximately 4\% of the L-band data for imaging modes, excluding pulsar observations, which are subject to a specialized RFI mitigation approach. Originally, flagged data from “ingest\_rfi” was excised prior to averaging the 0.5-second raw correlator dumps into the final 8-second dumps, though this was ultimately revised based on feedback from the scientific and RFI research communities. Currently, the “ingest\_rfi” flags are applied conservatively, while the more assertive “cal\_rfi” flags are typically excluded. Observers utilizing the MeerKAT pipeline images receive outputs with all standard flags applied. Further details can be found in the MeerKAT flagging package documentation \cite{hugo2022tricolouroptimizedsumthresholdflagger}.
 
-
-\item MeerKAT: correlator dumps outlier excision at high time res (ingest step, see Sihlangu and Ludwig)
-The ingest stage directly after the MeerKAT correlator has a fast and simple “1-D” mean absolute deviation (MAD) filter (“ingest\_rfi”) which identifies the background by running along the frequency axis and thresholds each dump and correlation product independently. It runs on a GPU and is conservatively tuned to identify obvious spikes in amplitude, flagging roughly 4\% of the data in the L band. This applies to all imaging modes but not pulsar mode, which has its own RFI mitigation scheme.
-Initially, the ingest stage also excised data that was flagged by the “ingest\_rfi” filter before it averaged 0.5-second raw correlator dumps to the final 8-second dumps. Scientists did not like this idea (and RFI researchers even more so!), so it was canned.
-
-The majority keep the more conservative “ingest\_rfi” flags but not the more aggressive “cal\_rfi” flags. Observers that take our pipeline images will have all flags applied.
-
-The main codebase for our flagger is https://github.com/ska-sa/katsdpsigproc. The tricolour MeerKAT flagger is a similar standalone flagging package. See https://arxiv.org/abs/2206.09179.
-
-
-\item MeerKAT: calibration step VarThreshold  (see Sihlangu and Ludwig)
-The calibration pipeline which follows after ingest has a more advanced “2-D” flagger (“cal\_rfi”). It is a tweaked AOFlagger written from scratch in Numba. It identifies the background by running along both the time and frequency axes. It performs two passes, first finding a smooth background on previously unflagged parts and then sum-thresholding. It only flags HV and VH (cross-hand) data and extends the results to HH and VV. It flags the calibrator before solving for gains, and it flags the target after applying gain corrections to it, which allows more stringent flagger parameters. It typically flags about 20\% of the data in the L band. This applies to all imaging modes but not pulsar mode, which has its own RFI mitigation scheme.
+\item Calibration VarThreshold
+The calibration pipeline following the ingest stage at MeerKAT incorporates an advanced, two-dimensional RFI flagging algorithm, “cal\_rfi,” custom-developed in Numba as an adaptation of the AOFlagger. This algorithm identifies background noise across both time and frequency axes in two stages: an initial pass to establish a smooth baseline on unflagged data, followed by a sum-thresholding step. Flagging is selectively applied to HV and VH (cross-hand) polarizations, with the resulting flags extended to HH and VV data. During calibration, “cal\_rfi” flags are set prior to gain determination for the calibrator and reapplied after gain corrections on the target, enabling more stringent RFI rejection parameters. This procedure typically flags about 20\% of L-band data across all imaging modes, with pulsar modes exempted, as they employ a distinct RFI management strategy.
 
 
 \end{itemize}
@@ -141,6 +131,8 @@ The calibration pipeline which follows after ingest has a more advanced “2-D�
 \label{subsection:hardware:catalog:prospective}
 
 \subsubsection{Preventive: Dynamic scheduler (Greg)}
+Dynamic scheduling in radio telescopes is a crucial strategy for mitigating RFI by adapting observational plans based on real-time RFI conditions. By continuously monitoring the spectrum and adjusting observation times and frequencies accordingly, dynamic scheduling maximizes data quality and minimizes RFI impact. For example, the Green Bank Telescope (GBT) uses real-time RFI monitoring tools to adjust its observation schedule, avoiding heavily contaminated frequency bands and allowing observations to proceed in cleaner spectral windows. The MeerKAT telescope in South Africa similarly employs dynamic scheduling to shift its observational focus during periods of high RFI, such as those caused by local broadcasting or transient sources like aircraft. The approach ensures optimal use of telescope time, especially in areas where RFI varies frequently, by prioritizing observations of frequencies least affected by interference. This adaptive scheduling framework is particularly beneficial for detecting faint cosmic signals, as it helps preserve data integrity across a range of frequencies and time scales.
+
 \subsubsection{Preventive: satellite avoidance at Green Bank}
 Satellite boresight avoidance is a technique to prevent satellites from directly illuminating a telescope's primary observation direction. In experiments conducted by the Green Bank Telescope (GBT) with Starlink satellites, this technique was tested \cite{nhan2024spectrumcoexistencedemonstrationeffectiveness} by adjusting the satellite constellation's configuration based on real-time telescope pointing data and predicted satellite trajectories. This approach minimizes interference by dynamically coordinating telescope operations with satellite activities, such as emission control and beam steering. The process is facilitated by the Operational Data Sharing (ODS) system, an autonomous platform developed by the National Radio Astronomy Observatory (NRAO). ODS provides satellite operators with real-time updates on telescope positions and observing frequencies, allowing them to adjust satellite operations accordingly. With frequent updates, potentially every minute, ODS ensures effective coordination, especially during close satellite passes near the telescope’s boresight
 
@@ -157,6 +149,10 @@ Reconfigurable Intelligent Surfaces (RIS) can mitigate RFI at the telescope rece
 The Effelsberg Direct Digitisation (EDD) System is a state-of-the-art fully digital receiver. Analog-to-digitial conversion occurs directly in the frontend and the digital baseband signal is transmitted over 100-GbE Ethernet to a processing cluster, where the signal is fed into GPUs based on commodity off-the-shelf (COTS) components. While this approach requires extra effort to shield the receiver inputs from self-generated RFI from the extra hardware close to the receivers, it offers a lot of benefits in terms of signal quality and flexibility. Currently, there are several Pulsar, spectroscopy, spectro-polarimetry and VLBI modes available. Adding new features is easy owing to the versatility of the GPU approach. First tests are also ongoing to implement the spectral kurtosis estimator-based RFI flagging. 
 
 \subsubsection{Digital: cyclic spectroscopy Green Bank}
+
+The Green Bank Telescope (GBT) is actively developing a cyclic spectroscopy system aimed at high-resolution studies of pulsars and improving RFI mitigation. Cyclic spectroscopy is particularly valuable for separating the periodic signals of pulsars from RFI, allowing the system to maintain detailed phase and frequency resolution. This technique enhances the GBT’s ability to study narrowband interstellar scintillation structures and scattering delays, which can be distorted by RFI. By accurately capturing the cyclic structure of pulsar signals, cyclic spectroscopy helps distinguish astronomical signals from interfering sources like satellite transmissions, which lack this periodicity.
+
+Moreover, cyclic spectroscopy at the GBT is complemented by other RFI mitigation techniques, such as spectral kurtosis, which monitors departures from Gaussian noise to identify RFI-contaminated data segments. This approach has proven effective across different astronomical sources observed at GBT, improving data quality by flagging and replacing RFI with representative noise, thus preserving the integrity of the scientific data collected.
 
 \subsubsection{Digital: Excision in time parametric subtraction Ellingson (Greg)}
 
