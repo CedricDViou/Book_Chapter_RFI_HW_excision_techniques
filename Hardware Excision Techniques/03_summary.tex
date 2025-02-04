@@ -2,67 +2,42 @@
 \label{section:hardware:summary}
 
 
-\begin{longtable}{|p{3cm}|p{4cm}|p{5cm}|p{5cm}|}
+\begin{table}
+  \begin{center}
+  \caption{Summary of real-time RFI mitigation techniques mitigation. The maturity level distinguishes conceptual (i.e. theoretical), prototype (i.e. not yet deployed or under commissioning), implemented (i.e. deployed but optional), and in-use (i.e. in operation) techniques.}
+ \label{real-time-tech}
+ {\scriptsize
+\begin{tabular}{|l|l|c|c|} \hline 
+{\bf Category} & {\bf Technique} & {\bf System Level} & {\bf Maturity Level} \\ 
 \hline
-\textbf{Category} & \textbf{Technique} & \textbf{Description} & \textbf{Applications/Advantages} \\
-\hline
-\endfirsthead
-\hline
-\textbf{Category} & \textbf{Technique} & \textbf{Description} & \textbf{Applications/Advantages} \\
-\hline
-\endhead
-\hline
-\endfoot
+\textbf{Avoidance} & Automated Scheduling & Scheduler & Prototype \\ \hline
+\textbf{Avoidance} & Dynamic Scheduling & Scheduler & Conceptual \\ \hline
+\textbf{Avoidance} & Satellite Boresight Avoidance & Scheduler & Prototype \\ \hline
+\textbf{Analog} & Adaptive Analog Attenuators & Analog receiver & In use \\ \hline
+\textbf{Analog} & Pre-LNA Superconducting Filters & Analog receiver & Prototype \\ \hline
+\textbf{Analog} & Front-End Notch Filters & Analog receiver & In use \\ \hline
+\textbf{Analog} & Switchable Notch Filters & Analog front-end & In use \\ \hline
+\textbf{Analog} & Tunable Notch Filters & Analog front-end & Prototype \\ \hline
+\textbf{Analog} & Reconfigurable Intelligent Surfaces (RIS) & External & Conceptual \\ \hline
+\textbf{Digital} & Real-Time RFI Excision & F-engine & Implemented \\ \hline
+\textbf{Digital} & Post-Channelization Flagger & F-engine & Implemented \\ \hline
+\textbf{Digital} & Sigma Cut Flagging & Beamformer & Implemented \\ \hline
+\textbf{Digital} & Spectral Kurtosis (SK) & F-engine & Implemented \\ \hline
+\textbf{Digital} & MeFisTo Filtering & Beamformer & In use \\ \hline
+\textbf{Digital} & Power-Based Excision & Beamformer & In use \\ \hline
+\textbf{Digital} & Calibration VarThreshold & Correlator & In use \\ \hline
+\textbf{Digital} & GRIDflag (UV-Domain Flagging) & Correlator & Prototype \\ \hline
+\textbf{Digital} & Spatial Filtering & Beamformer / F-engine & Prototype \\ \hline
+\textbf{Digital} & Collaborative Signal Subtraction & F-engine & Conceptual \\ \hline
+\textbf{Digital} & Pattern Recognition & Correlator & Conceptual \\ \hline
+\textbf{Digital} & Real-Time Satellite Prediction & Scheduler & Prototype \\ \hline
+\textbf{Digital} & Cyclic Spectroscopy & F-engine & Implemented \\ \hline
+\textbf{Digital} & Sample Frequency Offset Sampling & F-engine & Prototype \\ \hline
+\end{tabular}
+  }
+ \end{center}
+\end{table}
 
-\textbf{Avoidance} & Automated Scheduling & Avoids known fixed/moving RFI sources by aligning telescope observations with interference models. & Optimizes observation schedules to minimize RFI impact, particularly useful for fixed sources and dynamic RFI like LEO satellites. \\
-\hline
-\textbf{Avoidance} & Dynamic Scheduling & Adapts schedules in real time based on RFI conditions. & Used by GBT and MeerKAT to prioritize cleaner spectral windows and mitigate dynamic RFI. \\
-\hline
-\textbf{Avoidance} & Satellite Boresight Avoidance & Adjusts telescope pointing and satellite emission control to reduce interference. & Tested at GBT with Starlink satellites using real-time data sharing via the Operational Data Sharing (ODS) system. \\
-\hline
-\textbf{Analog} & Adaptive Analog Attenuators & Dynamically adjusts attenuation to prevent receiver saturation. & Used by OVRO-LWA to mitigate strong daytime RFI, preserving baseline levels while limiting sensitivity loss. \\
-\hline
-\textbf{Analog} & Pre-LNA Superconducting Filters & High-temperature superconducting filters before LNA for selective RFI suppression. & Applied at Yebes Observatory to minimize RFI, though limited by spurious responses and lack of automation. \\
-\hline
-\textbf{Analog} & Front-End Notch Filters & Rejects narrowband RFI before amplification. & Used in GMRT to suppress strong RFI, ensuring linear receiver operation. \\
-\hline
-\textbf{Analog} & Switchable Notch Filters & Attenuates specific RFI bands dynamically. & GBT employs these filters to suppress C-band interference and provides real-time RFI monitoring tools. \\
-\hline
-\textbf{Analog} & Tunable Notch Filters & Voltage-controlled filters for precise RFI mitigation. & Designed for DSA-2000 to cover 550-1050 MHz with up to 62.5 dB attenuation. \\
-\hline
-\textbf{Analog} & Reconfigurable Intelligent Surfaces (RIS) & Dynamically cancels RFI through wavefront shaping. & Creates electromagnetic quiet zones without affecting astronomical signals. \\
-\hline
-\textbf{Digital} & Real-Time RFI Excision & Removes impulsive RFI in time-domain data. & Used by uGMRT with FPGA-based systems for broadband RFI mitigation, improving sensitivity by filtering out impulses in real time. \\
-\hline
-\textbf{Digital} & Post-Channelization Flagger & Identifies and flags non-linearities and spectral anomalies. & Implemented in DSA-2000 to ensure accurate visibility data, improving calibration and imaging fidelity. \\
-\hline
-\textbf{Digital} & Sigma Cut Flagging & Detects RFI using robust statistical thresholds in time and frequency domains. & RFIm and Apertif Radio Transient System (ARTS) use this approach for high-throughput, effective RFI detection. \\
-\hline
-\textbf{Digital} & Spectral Kurtosis (SK) & Detects non-Gaussian signals for real-time RFI identification. & Applied at EOVSA for dynamic RFI flagging while preserving astronomical data. \\
-\hline
-\textbf{Digital} & MeFisTo Filtering & Median filtering in time and frequency domains to mitigate narrowband and wideband RFI. & Used at Nançay Decameter Array for solar and Jovian observations in low-frequency bands. \\
-\hline
-\textbf{Digital} & Power-Based Excision & Flags strong RFI bursts and integrates clean data. & Developed at Nançay for HI redshift surveys and OH megamasers amidst radar and satellite RFI. \\
-\hline
-\textbf{Digital} & Calibration VarThreshold & Advanced 2D flagging algorithm for time and frequency. & Used by MeerKAT to ensure sensitivity by rejecting 20\% of contaminated L-band data during calibration. \\
-\hline
-\textbf{Digital} & GRIDflag (UV-Domain Flagging) & Flags RFI directly in the UV domain based on statistical comparisons. & Enhances sensitivity and imaging fidelity for interferometric arrays. \\
-\hline
-\textbf{Digital} & Spatial Filtering & Suppresses RFI using spatial diversity and unique signal subspaces. & Effective for dense arrays like LOFAR, mitigating human-made RFI with minimal impact on astronomical signals. \\
-\hline
-\textbf{Digital} & Collaborative Signal Subtraction & Removes RFI by sharing interference models with sources like cellular networks. & Reduces computational overhead while recovering clean astronomical data, effective in environments with multiple RFI sources. \\
-\hline
-\textbf{Digital} & Pattern Recognition & Identifies RFI through edge detection and statistical analysis. & Real-time implementation for dynamic flagging, suitable for highly contaminated environments. \\
-\hline
-\textbf{Digital} & Real-Time Satellite Prediction & Predicts and flags satellite passes over the telescope beam. & Implemented at GMRT to alert users about satellite RFI in advance. \\
-\hline
-\textbf{Digital} & Cyclic Spectroscopy & Separates periodic astronomical signals from RFI. & GBT uses this technique to enhance pulsar studies and manage satellite RFI. \\
-\hline
-\textbf{Digital} & Sample Frequency Offset Sampling & Mitigates strong out-of-band RFI by decorrelating it during processing. & Applied in SKA Mid to reduce RFI artifacts from GSM, GNSS, and other transmitters. \\
-\hline
-\textbf{System} & Effelsberg Direct Digitization (EDD) & Fully digital receiver for flexible processing. & Supports multiple observation modes while testing SK-based RFI flagging. \\
-\hline
-\end{longtable}
 
 
 %A summary of real-time techniques applicable to different types and sources of RFI including the location of excision in the receiver chain is provided in Table ~\ref{real-time-tech}. \\
@@ -70,52 +45,51 @@
 
 
 
-%\begin{table}
- % \begin{center}
- % \caption{Summary of real-time techniques and mitigation location based on the type and source of RFI}
-  %\label{real-time-tech}
+% \begin{table}
+%   \begin{center}
+%   \caption{Summary of real-time techniques and mitigation location based on the type and source of RFI}
+%  \label{real-time-tech}
 % {\scriptsize
-  %\begin{tabular}%{|l|c|c|c|}\hline 
-%{\bf RFI Type} & {\bf Typical Source} & {\bf Mitigation At} & {\bf Technique} \\ 
-%    \hline
-%Strong, continuous,
-% & Terrestrial Transmitters & Frontend  & Analog filters\\
- % Narrowband RFI  & (FM stations etc.) &  & (notch/band-reject) \\ \hline
- % Intermittent Narrowband & Terrestrial transmitters & Backend & Statistical RFI \\
-%  RFI &  & (post-correlation,
- %& mitigation \\ 
-%&  & frequency domain) & and excision
-%Techniques \\ \hline
-%Broadband RFI & Powerline RFI, & Backend & Statistical RFI \\
-%&  sparking from & (pre-correlation, & mitigation \\ 
-%&  vehicles & time domain) & and excision Techniques \\ \hline
+% \begin{tabular}{|l|c|c|c|}\hline 
+% {\bf RFI Type} & {\bf Typical Source} & {\bf Mitigation At} & {\bf Technique} \\ 
+%     \hline
+% Strong, continuous,
+%  & Terrestrial Transmitters & Frontend  & Analog filters\\
+%   Narrowband RFI  & (FM stations etc.) &  & (notch/band-reject) \\ \hline
+%   Intermittent Narrowband & Terrestrial transmitters & Backend & Statistical RFI \\
+%   RFI &  & (post-correlation,
+%  & mitigation \\ 
+% &  & frequency domain) & and excision
+% Techniques \\ \hline
+% Broadband RFI & Powerline RFI, & Backend & Statistical RFI \\
+% &  sparking from & (pre-correlation, & mitigation \\ 
+% &  vehicles & time domain) & and excision Techniques \\ \hline
 
-%Spatially Confined & Extra-terrestrial & Antenna + Digital & Adaptive cancellation, \\
-%RFI & (e.g. satellites) & Backend & spatial filtering, \\
-%&  &  &  nulling \\ \hline
-
-%silicon & $~0.1-10$ & enhanced $^{13}$C, $^{14}$N, $^{22}$Ne, s-process elem. & AGB stars & $> 90$~\% \\
-%carbide & $~30$ & low $^{12}$C/$^{13}$C, often enh.\ $^{15}$N & J-type C-stars (?) & $< 5$~\% \\
-% & & enhanced $^{12}$C, $^{15}$N, $^{28}$Si; extinct $^{26}$Al, $^{44}$Ti & Supernovae & 1~\% \\
-% & & low $^{12}$C/$^{13}$C, low $^{14}$N/$^{15}$N & novae &  $0.1$~\% \\ \hline
-%graphite & $~0.1-10$ & enh.\ $^{12}$C, $^{15}$N, $^{28}$Si; extinct $^{26}$Al, $^{41}$Ca, $^{44}$Ti &
-% SN (WR?) & $< 80$~\% \\ 
-% & $~10$ & s-process elements & AGB stars & $> 10$~\% \\
-% & & low $^{12}$C/$^{13}$C  & J-type C-stars (?) & $< 10$~\% \\
-% & & low $^{12}$C/$^{13}$C; Ne-E(L) & novae & 2~\% \\ \hline
-% corundum/ & $~0.1-5$ & enhanced $^{17}$O, moderately depl. $^{18}$O & RGB / AGB & $> 70$~\% \\
-% spinel/ & $~50$ & enhanced $^{17}$O, strongly depl. $^{18}$O & AGB stars & 20~\% \\
-% hibonite & & enhanced $^{16}$O & supernovae & 1~\% \\ \hline
-% silicates & $~0.1-1$ & similar to oxides above & & \\
- %&  $~140$ & & & \\ \hline
- %silicon & $~1$ & enhanced $^{12}$C, $^{15}$N, $^{28}$Si; extinct $^{26}$Al & supernovae & 100~\% \\
- %nitride & $~ 0.002$ & & & \\ \hline
-%  \end{tabular}
-%  }
-% \end{center}
-%\vspace{1mm}
-% \scriptsize{
-%{\it Notes:}\\
- % $^1$For the abund.\ (in wt.\ ppm) the reported maximum values from different meteorites are given. \\
-%  $^2$Note uncertainty about actual fraction of diamonds that are pre-solar and for fraction of graphite attributed to SN and AGB stars (see discussion in text).}
-%\end{table}
+% Spatially Confined & Extra-terrestrial & Antenna + Digital & Adaptive cancellation, \\
+% RFI & (e.g. satellites) & Backend & spatial filtering, \\
+% &  &  &  nulling \\ \hline
+% silicon & $~0.1-10$ & enhanced $^{13}$C, $^{14}$N, $^{22}$Ne, s-process elem. & AGB stars & $> 90$~\ \\
+% carbide & $~30$ & low $^{12}$C/$^{13}$C, often enh.\ $^{15}$N & J-type C-stars (?) & $< 5$~\% \\
+%  & & enhanced $^{12}$C, $^{15}$N, $^{28}$Si; extinct $^{26}$Al, $^{44}$Ti & Supernovae & 1~\% \\
+%  & & low $^{12}$C/$^{13}$C, low $^{14}$N/$^{15}$N & novae &  $0.1$~\% \\ \hline
+% graphite & $~0.1-10$ & enh.\ $^{12}$C, $^{15}$N, $^{28}$Si; extinct $^{26}$Al, $^{41}$Ca, $^{44}$Ti &
+%  SN (WR?) & $< 80$~\% \\ 
+%  & $~10$ & s-process elements & AGB stars & $> 10$~\% \\
+%  & & low $^{12}$C/$^{13}$C  & J-type C-stars (?) & $< 10$~\% \\
+%  & & low $^{12}$C/$^{13}$C; Ne-E(L) & novae & 2~\% \\ \hline
+%  corundum/ & $~0.1-5$ & enhanced $^{17}$O, moderately depl. $^{18}$O & RGB / AGB & $> 70$~\% \\
+%  spinel/ & $~50$ & enhanced $^{17}$O, strongly depl. $^{18}$O & AGB stars & 20~\% \\
+%  hibonite & & enhanced $^{16}$O & supernovae & 1~\% \\ \hline
+%  silicates & $~0.1-1$ & similar to oxides above & & \\
+%  &  $~140$ & & & \\ \hline
+%  silicon & $~1$ & enhanced $^{12}$C, $^{15}$N, $^{28}$Si; extinct $^{26}$Al & supernovae & 100~\% \\
+%  nitride & $~ 0.002$ & & & \\ \hline
+%   \end{tabular}
+%   }
+%  \end{center}
+% \vspace{1mm}
+%  \scriptsize{
+% {\it Notes:}\\
+%   $^1$For the abund.\ (in wt.\ ppm) the reported maximum values from different meteorites are given. \\
+%   $^2$Note uncertainty about actual fraction of diamonds that are pre-solar and for fraction of graphite attributed to SN and AGB stars (see discussion in text).}
+% \end{table}
