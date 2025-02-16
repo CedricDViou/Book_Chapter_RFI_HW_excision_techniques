@@ -1,10 +1,10 @@
 \section{Summary table} %(Kaushal, All to contribute)
 \label{section:hardware:summary}
 
-
+A summary of real-time RFI mitigation techniques, along with the category, location in the system, and maturity is provided in Table~\ref{real-time-tech}.
 \begin{table}
   \begin{center}
-  \caption{Summary of real-time RFI mitigation techniques mitigation. The maturity level distinguishes conceptual (i.e. theoretical), prototype (i.e. not yet deployed or under commissioning), implemented (i.e. deployed but optional), and in-use (i.e. in operation) techniques.}
+  \caption{Summary of real-time RFI mitigation techniques. The maturity level distinguishes conceptual (i.e. theoretical), prototype (i.e. not yet deployed or under commissioning), implemented (i.e. deployed but optional), and in-use (i.e. in operation) techniques. The F-engine includes techniques included in the time domain and those implemented post-channelization and pre-correlation}
  \label{real-time-tech}
  {\scriptsize
 \begin{tabular}{|l|l|c|c|} \hline 
@@ -19,7 +19,7 @@
 \textbf{Analog} & Switchable Notch Filters & Analog front-end & In use \\ \hline
 \textbf{Analog} & Tunable Notch Filters & Analog front-end & Prototype \\ \hline
 \textbf{Analog} & Reconfigurable Intelligent Surfaces (RIS) & External & Conceptual \\ \hline
-\textbf{Digital} & Real-Time RFI Excision & F-engine & Implemented \\ \hline
+\textbf{Digital} & Real-Time RFI Excision & F-engine & In use \\ \hline
 \textbf{Digital} & Post-Channelization Flagger & F-engine & Implemented \\ \hline
 \textbf{Digital} & Sigma Cut Flagging & Beamformer & Implemented \\ \hline
 \textbf{Digital} & Spectral Kurtosis (SK) & F-engine & Implemented \\ \hline
