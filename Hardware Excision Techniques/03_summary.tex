@@ -1,10 +1,48 @@
 \section{Summary table} %(Kaushal, All to contribute)
 \label{section:hardware:summary}
 
-A summary of real-time RFI mitigation techniques, along with the category, location in the system, and maturity is provided in Table~\ref{real-time-tech}.
+A summary of real-time RFI mitigation techniques, along with the category, location in the system, and maturity, is provided in Table~\ref{real-time-tech}.
+
+\begin{table*}[htbp]
+  \begin{center}
+  \caption{Summary of real-time RFI mitigation techniques. The maturity level distinguishes conceptual (i.e. theoretical), prototype (i.e. not yet deployed or under commissioning), implemented (i.e. deployed but optional), and in-use (i.e. in operation) techniques. The F-engine includes techniques in the time domain and those implemented post-channelization and pre-correlation. The last column summarizes known benefits or limitations when quantified.}
+  \label{real-time-tech}
+  \scriptsize
+  \begin{tabular}{|l|l|c|c|p{5.7cm}|} \hline 
+\textbf{Category} & \textbf{Technique} & \textbf{System Level} & \textbf{Maturity} & \textbf{Benefits / Limitations} \\ 
+\hline
+Avoidance & Automated Scheduling & Scheduler & Prototype & Avoids high-RFI windows; depends on accurate RFI forecasting \\ \hline
+Avoidance & Dynamic Scheduling & Scheduler & Conceptual & Flexible, but requires real-time RFI maps and coordination \\ \hline
+Avoidance & Satellite Boresight Avoidance & Scheduler & Prototype & Can mitigate >20dB from LEOs; complex implementation \\ \hline
+Analog & Adaptive Analog Attenuators & Analog receiver & In use & Prevents saturation but raises $T_{\text{sys}}$ during daytime by up to 30–50\%  \\ \hline
+Analog & Pre-LNA Superconducting Filters & Analog receiver & Prototype & Raises receiver noise temperature by $<1$–$2$K; selective and narrowband \\ \hline
+Analog & Front-End Notch Filters & Analog receiver & In use & Increase $T_{\text{sys}}$ by $\sim$3–8K depending on position and bandwidth  \\ \hline
+Analog & Switchable Notch Filters & Analog front-end & In use & GBT: reduces 7.2GHz tone contamination; increases insertion loss marginally \\ \hline
+Analog & Tunable Notch Filters & Analog front-end & Prototype & Up to 62.5dB suppression; adds ~3K to $T_{\text{rec}}$ due to filter insertion  \\ \hline
+Analog & Reconfigurable Intelligent Surfaces (RIS) & External & Conceptual & Potential 15–30dB spatial suppression; experimental \\ \hline
+Digital & Real-Time RFI Excision & F-engine & In use & Preserves uncorrupted data; $\approx$4–6\% data flagged (e.g., MeerKAT)  \\ \hline
+Digital & Post-Channelization Flagger & F-engine & Implemented & Enables frequency-specific flagging; computationally light \\ \hline
+Digital & Sigma Cut Flagging & Beamformer & Implemented & Effective real-time suppression; signal replacement reduces transients detection  \\ \hline
+Digital & Spectral Kurtosis (SK) & F-engine & Implemented & Captures non-Gaussianity; may misclassify weak bursts \\ \hline
+Digital & MeFisTo Filtering & Beamformer & In use & Up to 20–30dB filtering in SKA pathfinders (MeerKAT) \\ \hline
+Digital & Power-Based Excision & Beamformer & In use & Cuts strong impulsive RFI; misses continuous weak sources \\ \hline
+Digital & Calibration VarThreshold & Correlator & In use & Avoids skewing calibration solutions; operates at $\sim$8s resolution \\ \hline
+Digital & GRIDflag (UV-Domain) & Correlator & Prototype & Reduces faint RFI contamination; not real-time unless in correlator pipeline  \\ \hline
+Digital & Spatial Filtering & Beamformer / F-engine & Prototype & Effective in known source directions; residuals remain in sidelobes \\ \hline
+Digital & Collaborative Signal Subtraction & F-engine & Conceptual & Enables signal salvation; residuals remain due to mismatch  \\ \hline
+Digital & Pattern Recognition & Correlator & Conceptual & Can identify complex RFI; requires ML training and compute \\ \hline
+Digital & Real-Time Satellite Prediction & Scheduler & Prototype & Avoids known satellite tracks; requires accurate TLE updates \\ \hline
+Digital & Cyclic Spectroscopy & F-engine & Implemented & Discriminates periodic pulsar signals from non-cyclic RFI; may be combined with rejection filtering  \\ \hline
+Digital & Sample Freq. Offset Sampling & F-engine & Prototype & Decorrelates RFI across stations; residual artifacts minimized by shifting RFI to 0Hz  \\ \hline
+  \end{tabular}
+  \end{center}
+\end{table*}
+
+
+\begin{comment}
 \begin{table}
   \begin{center}
-  \caption{Summary of real-time RFI mitigation techniques. The maturity level distinguishes conceptual (i.e. theoretical), prototype (i.e. not yet deployed or under commissioning), implemented (i.e. deployed but optional), and in-use (i.e. in operation) techniques. The F-engine includes techniques included in the time domain and those implemented post-channelization and pre-correlation}
+  \caption{Summary of real-time RFI mitigation techniques. The maturity level distinguishes conceptual (i.e. theoretical), prototype (i.e. not yet deployed or under commissioning), implemented (i.e. deployed but optional), and in-use (i.e. in operation) techniques. The F-engine includes techniques in the time domain and those implemented post-channelization and pre-correlation.}
  \label{real-time-tech}
  {\scriptsize
 \begin{tabular}{|l|l|c|c|} \hline 
@@ -37,7 +75,7 @@ A summary of real-time RFI mitigation techniques, along with the category, locat
   }
  \end{center}
 \end{table}
-
+\end{comment}
 
 
 %A summary of real-time techniques applicable to different types and sources of RFI including the location of excision in the receiver chain is provided in Table ~\ref{real-time-tech}. \\
