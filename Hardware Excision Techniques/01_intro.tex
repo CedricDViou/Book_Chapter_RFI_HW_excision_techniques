@@ -11,10 +11,11 @@ where \( \Delta S \) is the minimum detectable flux density in Jansky (1 Jy = $1
 In the context of interferometry, where signals are correlated between pairs of antennas rather than detected by a single dish, the sensitivity of a single visibility measurement is given by the interferometric radiometer equation:
 
 \[ \Delta S = \frac{2 k_B T_{\text{sys}}}{\eta_s A_{\text{eff}} \sqrt{ \Delta f \, \tau }} \]
-
 Here, $\eta_s$ is the system efficiency factor, typically close to unity. The absence of the $\sqrt{2}$ factor (compared to the single-dish case) reflects that real and imaginary components of visibilities are treated separately. In an array with $N$ antennas, the overall image sensitivity improves with the number of independent baselines, scaling approximately as $\sqrt{N(N-1)}$ for a complete array.
 
-These two forms of the radiometer equation form the theoretical foundation for quantifying sensitivity and for designing optimal observational strategies in radio astronomy. The sensitivity that modern radio astronomy systems can achieve is unrivalled in other radio services and applications. However, this fantastic achievement also comes at a cost. Observations are highly susceptible to various human-made transmissions and other forms of electromagnetic radiation. A cell phone on the Moon would be among the brightest sources in the sky, at the respective frequencies. 
+These two forms of the radiometer equation form the theoretical foundation for quantifying sensitivity and for designing optimal observational strategies in radio astronomy. The sensitivity that modern radio astronomy systems can achieve is unrivalled in other radio services and applications. However, this fantastic achievement also comes at a cost. Observations are highly susceptible to various human-made transmissions and other forms of electromagnetic radiation.
+For instance, the downlink of a single low-Earth orbit satellite ($\approx$ 550 km altitude) in the cellular band, concentrated into a 10 MHz channel, can appear over 50 dB brighter than the quiet Sun ($\approx$ 0.75 MJy at 1 GHz) and more than 80 dB brighter than Cassiopeia A ($\approx$ 2.4 kJy at 1 GHz), which are respectively the brightest and second-brightest natural radio sources in the sky.
+%A cell phone on the Moon would be among the brightest sources in the sky, at the respective frequencies. 
 
 The sensitivity requirements of modern radio astronomy compel astronomers to explore frequencies well beyond the protected passive bands owing to the scarcity, limited bandwidth, and incomplete coverage of these designated ranges. Astronomers usually refer to the anthropogenic signals found beyond these protected bands as RFI. Still, it has to be pointed out that in legal terms, most of the disturbing features in the radio telescope data are not considered as RFI by administrations and other spectrum management stakeholders, as the operators of radio transmitters usually have a license, and the wanted transmissions, e.g., cell phone carriers, are perfectly legal. In spectrum management, RFI specifically means any kind of unwanted emission, such as near-spectral sidelobes, harmonics or intermodulation products, which can leak into the allocated band of another radio service.
 
@@ -47,7 +48,7 @@ A radio astronomy receiver chain begins with a feed that collects celestial radi
 RFI impacts the receiver chain at varying levels:
 \begin{itemize}
 %\item \emph{Level 0}: Undetectable RFI does not impact observations, requiring long integration times to assess its threshold via modelling or experiments.
-\item \emph{Level 0}: RFI that appears undetectable relative to the system sensitivity. While such signals may fall below the detection threshold in a single observation, they can still introduce subtle biases, particularly in statistical or detection-limited experiments near the noise floor, through persistent systematic effects. According to the radio interferometer measurement equation, even low-level signals can bias results if they correlate with the observing process. Thus, \emph{Level 0} should be understood as RFI whose power spectral density is at least an order of magnitude below the sensitivity threshold of the instrument. It is often referred to as “unaffecting RFI,” though its actual impact may only be assessable through long integrations or modelling.
+\item \emph{Level 0}: RFI that appears undetectable relative to the system sensitivity, for some observations. While such signals may fall below the detection threshold in a single observation, they can still introduce subtle biases, particularly in statistical or detection-limited experiments near the noise floor, through persistent systematic effects. According to the radio interferometer measurement equation, even low-level signals can bias results if they correlate with the observing process. Thus, \emph{Level 0} should be understood as RFI whose power spectral density is at least an order of magnitude below the sensitivity threshold of the instrument. It is often referred to as “unaffecting RFI,” though its actual impact may only be assessable through long integrations or modelling.
 \item \emph{Level 1}: Detectable RFI adds unwanted contributions, requiring excision to preserve data integrity, but this can reduce sensitivity and hinder the detection of sparse astronomical signals or calibration accuracy.
 \item \emph{Level 2}: Stronger RFI pushes the LNA into non-linear operation, generating harmonics and intermodulation products. Mitigation involves excising data and using attenuators, further degrading sensitivity.
 \item \emph{Level 3}: Severe RFI causes ADC saturation, resulting in irrecoverable signal artefacts. Mitigation typically includes attenuators at the cost of a loss in sensitivity or ADC direct sampling with a high dynamic range.
@@ -77,19 +78,19 @@ RFI mitigation in a radio observatory is carried out in different ways \citep{fo
 %\label{subsection:hardware:introduction: classification}
 Figure~\ref{fig:real-time-rfi} illustrates the increase in data loss in a typical radio telescope receiver signal processing chain.
 
-\begin{figure}
-    \centering
-    \includegraphics[scale=0.8]{Hardware Excision Techniques/figures/rt.jpg}
-    \caption{SNR versus data loss in a typical telescope receiver system}
-    \label{fig:real-time-rfi}
-\end{figure}
-
 
 \begin{figure}
     \centering
     \includegraphics[height=.20\textheight]{figures/radar.pdf}
     \caption{One of the 5-s periodic bursts received from a radar system.  The burst is a group of many periodic short impulses, sparse in time, but broad.  }
     \label{fig:rfi_example_radar}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.8]{Hardware Excision Techniques/figures/rt.jpg}
+    \caption{SNR versus data loss in a typical telescope receiver system}
+    \label{fig:real-time-rfi}
 \end{figure}
 
 Real-time RFI mitigation strategies fall into three broad categories: \textit{excision}, \textit{subtraction}, and \textit{coordination}. Excision techniques identify and remove contaminated samples before averaging, reducing downstream corruption but resulting in irreversible data loss and potential statistical biases \citep{hugo2022tricolouroptimizedsumthresholdflagger,10464448}. Subtraction methods attempt to preserve the astronomical signal by estimating and removing the interference, yet are limited by residuals due to imperfect modelling and front-end nonlinearities \citep{ellingson2022coherent,chakraborty2024low}. Coordination approaches mitigate RFI proactively—e.g., via predictive scheduling or emitter cooperation—but may constrain telescope operations \citep{hellbourg2024assessing}. These trade-offs are summarized in Table~\ref{real-time-tech}.
